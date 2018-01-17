@@ -9,27 +9,17 @@ import BootstrapVue from 'bootstrap-vue'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueResource from 'vue-resource';
+import './filters/splitter'
 
 Vue.use(VueResource);
 
-Vue.use(Vuetify)
-// import Vuetable from 'vuetable-2/src/components/Vuetable.vue';
-// import VueTablePagination from 'vuetable-2/src/components/VuetablePagination.vue';
-// import VueTablePaginationDropDown  from 'vuetable-2/src/components/VuetablePaginationDropdown.vue';
-// import VueTablePaginationInfo  from 'vuetable-2/src/components/VueTablePaginationInfo.vue';
-
+Vue.use(Vuetify);
 
 Vue.use(BootstrapVue);
-//Vue.use(Vuetable);
-// Vue.component("vuetable", Vuetable);
-// Vue.component("vuetable-pagination", VueTablePagination);
-// Vue.component("vuetable-pagination-dropdown", VueTablePaginationDropDown);
-// Vue.component("vuetable-pagination-info", VueTablePaginationInfo);
-
 
 
 Vue.config.productionTip = false
-Vue.use(router);
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

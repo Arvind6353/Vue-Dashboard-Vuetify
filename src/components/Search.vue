@@ -43,10 +43,11 @@
              @click="!header.disableSort && changeSort(header.value)"
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            {{ header.text }}
+            <span class="heading blue--text text--darken-4">{{ header.text }}</span>
           </th>
           <th>
-            Actions
+            <span class="heading blue--text text--darken-4">   Actions
+          </span>
           </th>
         </tr>
       </template>
@@ -64,14 +65,11 @@
             ></v-checkbox>
           </td> -->
           <td>{{ props.item.customerName }}</td>
-          <td class="text-xs-right">{{ props.item.customerRegion }}</td>
-          <td class="text-xs-right">{{ props.item.country }}</td>
-          <td class="text-xs-right">{{ props.item.launchDate }}</td>
-          <td class="text-xs-right">{{ props.item.problemStatement }}</td>
-          <td class="text-xs-right">{{ props.item.solutionProvided }}</td>
-          <td class="text-xs-right">{{ props.item.products }}</td>
-          <td class="text-xs-right">{{ props.item.references }}</td>
-          <td class="text-xs-right">{{ props.item.pointOfContacts }}</td>
+          <td>{{ props.item.customerRegion }}</td>
+          <td>{{ props.item.country }}</td>
+          <td>{{ props.item.launchDate }}</td>
+          <td>{{ props.item.products | splitter }}</td>
+          <td>{{ props.item.pointOfContacts }}</td>
           <td>
             <v-btn icon color="success" @click="viewCustomerData(props.item)">
               <v-icon>list</v-icon>
@@ -94,18 +92,34 @@
     </v-card>
 
  <v-layout row justify-center>
-      <v-dialog v-model="dialog" max-width="1000px">
-       <Add is-edit="true" :item="item"
-       @close-dialog="closeDialog"></Add>
+      <v-dialog v-model="editDialog" max-width="1000px">
+       <Add :is-edit="true" :item="item"
+       @close-edit-dialog="closeEditDialog"
+       @dismiss-edit-dialog="dismissEditDialog"></Add>
       </v-dialog>
-    </v-layout>
+  </v-layout>
+
+   <v-layout row justify-center>
+      <v-dialog v-model="viewDialog" max-width="1000px">
+       <ViewDetail :cusData="cusData"
+      ></ViewDetail>
+      </v-dialog>
+  </v-layout>
+
+
+  <v-layout row justify-center>
+      <v-dialog v-model="deleteDialog" max-width="500px">
+       <Del :delData="delData"
+       @close-delete-dialog="closeDeleteDialog"
+       @do-delete="deleteData"
+      ></Del>
+      </v-dialog>
+  </v-layout>
 
 
   </div>
 
 </template>
-
-
 
 
 
@@ -118,11 +132,15 @@ export default {
       pagination: {
         sortBy: 'customerName'
       },
-       search: '',
-       dialog: false,
+      search: '',
+      editDialog: false,
+      viewDialog : false,
+      deleteDialog: false,
       selected: [],
       loading: false,
       item: {},
+      cusData:{},
+      delData: {},
       headers: [
         {
           text: 'Customer Name',
@@ -132,10 +150,7 @@ export default {
         { text: 'Region', value: 'customerRegion' },
         { text: 'Country', value: 'country' },
         { text: 'Launch Date', value: 'launchDate' },
-        { text: 'Problem Statement', value: 'problemStatement' },
-        { text: 'Solution Provided', value: 'solutionProvided' },
         { text: 'Products', value: 'products' },
-        { text: 'References', value: 'references', disableSort: true },
         { text: 'Point Of Contacts', value: 'pointOfContacts' }
 
       ],
@@ -144,13 +159,8 @@ export default {
   },
 
   mounted () {
-    this.getCustomerData()
-      .then(data => {
-        setTimeout(() =>{
-              this.loading = false
-            this.items = data
-        },2000);
-     })
+
+    this.loadData();
   },
   methods: {
     toggleAll () {
@@ -165,6 +175,15 @@ export default {
         this.pagination.descending = false
       }
     },
+    loadData () {
+      this.getCustomerData()
+        .then(data => {
+          setTimeout(() =>{
+              this.loading = false
+              this.items = data
+          },2000);
+      })
+    },
     getCustomerData () {
         this.loading = true
         return this.$http.get("http://localhost:3000/api/customerData").then(result => {
@@ -177,19 +196,43 @@ export default {
         });
     },
     editCustomerData(data) {
-      this.dialog = true;
+      this.editDialog = true;
       this.item = data;
 
     },
     deleteCustomerData(data) {
-
+      this.deleteDialog = true;
+      this.delData = data;
     },
     viewCustomerData(data) {
-
+        this.viewDialog = true;
+        this.cusData = data;
     },
-    closeDialog() {
-      this.dialog = false;
+    closeEditDialog() {
+      this.editDialog = false;
+      this.loadData();
+    },
+    dismissEditDialog() {
+      this.editDialog = false;
+    },
+    closeDeleteDialog() {
+      this.deleteDialog = false;
+    },
+    deleteData(id) {
+      this.loading = true
+        this.$http.delete("http://localhost:3000/api/customerData?id="+id).then(result => {
+            console.log("deleted successfully")
+            this.deleteDialog = false;
+            this.loading = false;
+            this.loadData();
+        }, error => {
+          this.loading = false;
+           this.deleteDialog = false;
+          this.items = [];
+          console.error(error);
+      });
     }
   }
 }
+
 </script>
