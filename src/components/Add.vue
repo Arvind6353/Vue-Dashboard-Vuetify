@@ -2,8 +2,6 @@
    <v-card>
       <v-card-title>
         <h1>Customer Data Form </h1>
-        {{customerData}}
-       isedit form {{isEdit}}
          </v-card-title>
 
 
@@ -36,20 +34,27 @@
 
       <v-text-field
         label="Problem Statement"
+        :auto-grow="true"
         v-model="customerData.problemStatement"
-        :rules="[v => !!v || 'Problem Statement is required']"
+        :rules="[v => !!v || 'Problem Statement is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters'
+        ]"
         multi-line
         required
+        rows="2"
         :counter="600"
       ></v-text-field>
 
 
       <v-text-field
         label="Solution Provided"
+        :auto-grow="true"
         v-model="customerData.solutionProvided"
-        :rules="[v => !!v || 'Solution Provided is required']"
+        :rules="[v => !!v || 'Solution Provided is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         multi-line
         required
+        rows="2"
         :counter="600"
         >
        </v-text-field>
@@ -97,35 +102,46 @@
       <v-text-field
         v-model="customerData.references"
         label="References(comma separated)"
+        :auto-grow="true"
         multi-line
+        rows="2"
         required
-        :rules="[v => !!v || 'References is required']"
+        :rules="[v => !!v || 'References is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
       ></v-text-field>
 
       <v-text-field
         v-model="customerData.pointOfContacts"
+        :auto-grow="true"
         label="Point Of Contacts(comma separated)"
-        :rules="[v => !!v || 'Point of Contacts is required']"
+        :rules="[v => !!v || 'Point of Contacts is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         multi-line
         required
         :counter="600"
+        rows="2"
       ></v-text-field>
 
        <v-text-field
         label="Notes"
         v-model="customerData.notes"
-        :rules="[v => !!v || 'Notes is required']"
+        :rules="[v => !!v || 'Notes is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
         required
       ></v-text-field>
 
        <v-text-field
         label="Lessons Learned"
+        :auto-grow="true"
+        multi-line
         v-model="customerData.lessonLearned"
-        :rules="[v => !!v || 'Lessons Learned is required']"
+        :rules="[v => !!v || 'Lessons Learned is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
         required
+         rows="2"
       ></v-text-field>
 
       <v-btn

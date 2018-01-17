@@ -15,7 +15,6 @@ Vue.use(VueResource);
 
 Vue.use(Vuetify);
 
-Vue.use(BootstrapVue);
 
 
 Vue.config.productionTip = false
