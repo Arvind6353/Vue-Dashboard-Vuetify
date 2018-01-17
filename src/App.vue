@@ -2,17 +2,16 @@
   <div id="app">
 <v-app>
  <v-toolbar dark color="primary">
-      <v-toolbar-title class="white--text">Customer Dashboard</v-toolbar-title>
+      <v-toolbar-title class="white--text" @click="gotohome">Customer Dashboard</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
-      <v-toolbar-items class="hidden-sm-and-down">
-        <v-btn icon to="/search">
+        <v-btn flat to="/search"> Search &nbsp;
           <v-icon>search</v-icon>
         </v-btn>
-        <v-btn icon to="/add">
+        <v-btn flat to="/add"> Add Customer Data &nbsp;
           <v-icon>add</v-icon>
         </v-btn>
-      </v-toolbar-items>
+
   </v-toolbar>
 
 
@@ -25,7 +24,13 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  methods : {
+    gotohome(){
+      this.$router.push("search")
+    }
+  }
+
 }
 </script>
 

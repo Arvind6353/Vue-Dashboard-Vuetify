@@ -2,6 +2,7 @@
 <div id="app">
   <v-card>
       <v-card-title>
+        <span class="title">Customer Data</span>
         <v-spacer></v-spacer>
         <v-text-field
           append-icon="search"
@@ -100,7 +101,7 @@
   </v-layout>
 
    <v-layout row justify-center>
-      <v-dialog v-model="viewDialog" max-width="1000px">
+      <v-dialog v-model="viewDialog" max-width="800px">
        <ViewDetail :cusData="cusData"
       ></ViewDetail>
       </v-dialog>

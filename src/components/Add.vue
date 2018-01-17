@@ -1,7 +1,7 @@
 <template>
    <v-card>
       <v-card-title>
-        <h1>Customer Data Form </h1>
+        <h1 class="blue--text text--darken-4">Add Customer Data Form</h1>
          </v-card-title>
 
 
@@ -12,7 +12,6 @@
         :rules="nameRules"
         :counter="30"
         required
-        :disabled = "isEdit"
       ></v-text-field>
 
       <v-select
@@ -71,6 +70,7 @@
             slot="activator"
             label="Launch Date"
             v-model="customerData.launchDate"
+            :rules="[v => !!v || 'Launch Date is required']"
             prepend-icon="event"
             readonly
             required
@@ -95,7 +95,7 @@
         chips
         hint="What are the Products Used?"
         required
-        :rules="[v => !!v || 'Products is required']"
+        :rules="[v => v.length>0 || 'Products is required']"
       ></v-select>
 
 

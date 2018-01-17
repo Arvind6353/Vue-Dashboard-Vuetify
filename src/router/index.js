@@ -5,20 +5,20 @@ import Search from '@/components/Search'
 import Add from '@/components/Add'
 import ViewDetail from '@/components/ViewDetail'
 import Del from '@/components/Del'
-
+import NotFound from '@/components/NotFound'
 
 Vue.component("Add",Add);
 Vue.component("Search", Search);
 Vue.component("ViewDetail",ViewDetail);
 Vue.component("Del",Del);
+Vue.component("NotFound", NotFound);
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      redirect: '/search'
     },
     {
       path: '/search',
@@ -29,6 +29,10 @@ export default new Router({
       path: '/add',
       name: 'Add',
       component: Add
+    },
+    {
+      path: '*',
+      component: NotFound
     }
   ]
 })
