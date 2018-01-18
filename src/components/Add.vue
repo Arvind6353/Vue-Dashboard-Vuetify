@@ -19,7 +19,6 @@
         v-model="customerData.customerRegion"
         :items="regions"
         :rules="[v => !!v || 'Region is required']"
-        required
       ></v-select>
 
        <v-select
@@ -27,7 +26,6 @@
         v-model="customerData.country"
         :items="countries"
         :rules="[v => !!v || 'Country is required']"
-        required
       ></v-select>
 
 
@@ -39,7 +37,6 @@
           v => (v && v.length <= 600) || 'Must be less than 600 characters'
         ]"
         multi-line
-        required
         rows="2"
         :counter="600"
       ></v-text-field>
@@ -52,7 +49,6 @@
         :rules="[v => !!v || 'Solution Provided is required',
           v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         multi-line
-        required
         rows="2"
         :counter="600"
         >
@@ -73,7 +69,6 @@
             :rules="[v => !!v || 'Launch Date is required']"
             prepend-icon="event"
             readonly
-            required
           ></v-text-field>
           <v-date-picker v-model="customerData.launchDate" scrollable actions>
             <template slot-scope="{ save, cancel }">
@@ -94,7 +89,6 @@
         multiple
         chips
         hint="What are the Products Used?"
-        required
         :rules="[v => v.length>0 || 'Products is required']"
       ></v-select>
 
@@ -105,7 +99,6 @@
         :auto-grow="true"
         multi-line
         rows="2"
-        required
         :rules="[v => !!v || 'References is required',
           v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
@@ -118,7 +111,6 @@
         :rules="[v => !!v || 'Point of Contacts is required',
           v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         multi-line
-        required
         :counter="600"
         rows="2"
       ></v-text-field>
@@ -129,7 +121,6 @@
         :rules="[v => !!v || 'Notes is required',
           v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
-        required
       ></v-text-field>
 
        <v-text-field
@@ -140,7 +131,6 @@
         :rules="[v => !!v || 'Lessons Learned is required',
           v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
-        required
          rows="2"
       ></v-text-field>
 
