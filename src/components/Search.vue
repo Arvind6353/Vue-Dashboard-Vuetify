@@ -125,7 +125,7 @@
 
 
 <script>
-
+import config from '../config'
 export default {
 
   data () {
@@ -187,13 +187,15 @@ export default {
     },
     getCustomerData () {
         this.loading = true
-        return this.$http.get("http://localhost:3000/api/customerData").then(result => {
+        return this.$http.get(config.serverUrl+"/customer").then(result => {
               return result.data;
 
         }, error => {
             this.loading = false;
             this.items = [];
             console.error(error);
+            this.$router.push("errorpage");
+
         });
     },
     editCustomerData(data) {
@@ -221,16 +223,17 @@ export default {
     },
     deleteData(id) {
       this.loading = true
-        this.$http.delete("http://localhost:3000/api/customerData?id="+id).then(result => {
+        this.$http.delete(config.serverUrl+"/customer/"+id).then(result => {
             console.log("deleted successfully")
             this.deleteDialog = false;
             this.loading = false;
             this.loadData();
         }, error => {
-          this.loading = false;
-           this.deleteDialog = false;
-          this.items = [];
-          console.error(error);
+            this.loading = false;
+            this.deleteDialog = false;
+            this.items = [];
+            console.error(error);
+            this.$router.push("errorpage");
       });
     }
   }

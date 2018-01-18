@@ -160,6 +160,7 @@
 
 
 <script>
+import config from '../config'
 export default {
   props: ["isEdit", "item"],
   watch: {
@@ -201,15 +202,20 @@ export default {
       "Pakistan",
       "Srilanka",
       "Japan",
-      "China"
+      "China",
+      "Singapore"
     ],
     productsArr: [
       "Express Checkout",
       "Invoicing",
       "Payouts",
       "WPS",
-      "Order Api",
-      "Payflow Pro"
+      "Order APIs",
+      "Dispute APIs",
+      "Integrated Sign Up APIs",
+      "Payflow Pro",
+      "LIPP",
+      "Refund API's"
     ],
     modal: false
   }),
@@ -220,7 +226,7 @@ export default {
 
         if (!this.isEdit) {
           this.$http
-            .post("http://localhost:3000/api/customerData", this.customerData, {
+            .post(config.serverUrl+"/customer", this.customerData, {
               headers: { "content-type": "application/json" }
             })
             .then(
@@ -230,12 +236,13 @@ export default {
               },
               error => {
                 console.error(error);
+                this.$router.push("errorpage");
               }
             );
         } else {
           {
           this.$http
-            .put("http://localhost:3000/api/customerData", this.customerData, {
+            .put(config.serverUrl+"/customer", this.customerData, {
               headers: { "content-type": "application/json" }
             })
             .then(
@@ -248,6 +255,7 @@ export default {
               },
               error => {
                 console.error(error);
+                this.$router.push("errorpage");
               }
             );
         }

@@ -51,7 +51,7 @@ export default {
       this.$emit("close-delete-dialog");
     },
     deleteData(){
-      this.$emit("do-delete", this.customerData.id);
+      this.$emit("do-delete", this.customerData._id);
     }
   }
 }
