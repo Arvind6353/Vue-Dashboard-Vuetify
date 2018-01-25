@@ -1,5 +1,7 @@
 <template>
 <div id="app">
+
+<customer-nav></customer-nav>
   <v-card>
       <v-card-title>
         <span class="title">Customer Data</span>
@@ -126,8 +128,12 @@
 
 <script>
 import config from '../config'
-export default {
+import CustomerNav from './CustomerNav.vue'
 
+export default {
+ components: {
+    "customer-nav": CustomerNav
+  },
   data () {
     return {
       pagination: {

@@ -1,22 +1,26 @@
 <template>
   <div id="app">
 <v-app>
- <v-toolbar dark color="primary">
-      <v-toolbar-title class="white--text" @click="gotohome">Customer Dashboard</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-toolbar-side-icon class="hidden-md-and-up"></v-toolbar-side-icon>
-        <v-btn flat to="/search"> Search &nbsp;
-          <v-icon>search</v-icon>
-        </v-btn>
-        <v-btn flat to="/add"> Add Customer Data &nbsp;
-          <v-icon>add</v-icon>
-        </v-btn>
 
-  </v-toolbar>
+<v-tabs fixed icons centered>
+      <v-tabs-bar dark color="black">
+        <v-tabs-slider color="yellow"></v-tabs-slider>
+
+        <v-tabs-item to="/search">
+          <v-icon>list</v-icon>
+        Dashboard
+        </v-tabs-item>
+        <v-tabs-item to="/adds">
+          <v-icon>search</v-icon>
+          Paypal Confluence
+        </v-tabs-item>
+      </v-tabs-bar>
+      </v-tabs>
+
+
 
 
 <!-- navbar-1.vue -->
-<br/>
   <router-view></router-view>
   </v-app>
   </div>

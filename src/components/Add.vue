@@ -1,4 +1,8 @@
 <template>
+<div id="app">
+ <span v-if ="isEdit!=true">
+  <customer-nav></customer-nav>
+</span>
    <v-card>
       <v-card-title>
         <h1 class="blue--text text--darken-4">Add Customer Data Form</h1>
@@ -147,15 +151,19 @@
       <v-btn @click="dismiss">Dismiss</v-btn>
     </v-form>
     </v-card>
-
+</div>
 
 </template>
 
 
 <script>
 import config from '../config'
+import CustomerNav from './CustomerNav.vue'
 export default {
   props: ["isEdit", "item"],
+  components: {
+    "customer-nav": CustomerNav
+  },
   watch: {
     $props: {
       handler: function(val, oldVal) {
@@ -267,9 +275,7 @@ export default {
 };
 </script>
 <style scoped>
-#app {
-  margin: 2%;
-}
+
 form {
   padding-left: 20px;
   padding-right: 20px;
