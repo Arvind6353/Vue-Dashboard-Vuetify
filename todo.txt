@@ -1,0 +1,14 @@
+multiselect dropdwon
+
+in grid -  <ulti country
+
+in viiew -> comma separetad
+
+
+
+tabs
+
+Customer data , search box -> keyword related links
+
+
+references -> validate format. show as link in view . both validate url , text

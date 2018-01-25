@@ -23,10 +23,13 @@
 
        <v-select
         label="Country"
-        v-model="customerData.country"
         :items="countries"
-        :rules="[v => !!v || 'Country is required']"
+        v-model="customerData.country"
+         multiple
+        chips
+        :rules="[v => v.length>0 || 'Country is required']"
       ></v-select>
+
 
 
       <v-text-field
@@ -168,7 +171,7 @@ export default {
     customerData: {
       customerName: "",
       customerRegion: "",
-      country: "",
+      country: null,
       launchDate: null,
       problemStatement: "",
       lessonLearned: "",
@@ -183,7 +186,7 @@ export default {
       v => (v && v.length <= 30) || "Name must be less than 30 characters"
     ],
     items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-    regions: ["APAC", "AMEA", "NA", "LATAM"],
+    regions: ["APAC", "NA", "LATAM","EMEA"],
     countries: [
       "India",
       "Australia",
@@ -193,7 +196,9 @@ export default {
       "Srilanka",
       "Japan",
       "China",
-      "Singapore"
+      "Singapore",
+      "Canada",
+      "Germany"
     ],
     productsArr: [
       "Express Checkout",

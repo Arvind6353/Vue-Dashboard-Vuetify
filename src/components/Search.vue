@@ -67,7 +67,7 @@
           </td> -->
           <td>{{ props.item.customerName }}</td>
           <td>{{ props.item.customerRegion }}</td>
-          <td>{{ props.item.country }}</td>
+          <td>{{ props.item.country | multicountry }}</td>
           <td>{{ props.item.launchDate }}</td>
           <td>{{ props.item.products | splitter }}</td>
           <td>{{ props.item.pointOfContacts }}</td>
@@ -160,9 +160,16 @@ export default {
   },
 
   mounted () {
-
-    this.loadData();
+     this.loadData();
   },
+
+  filters: {
+    multicountry: function (value) {
+      if(value && value.length > 1) return "Multi Country";
+      return value.join(',');
+    }
+  },
+
   methods: {
     toggleAll () {
       if (this.selected.length) this.selected = []
