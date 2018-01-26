@@ -172,6 +172,7 @@ export default {
   filters: {
     multicountry: function (value) {
       if(value && value.length > 1) return "Multi Country";
+      if(!value) return '';
       return value.join(',');
     }
   },

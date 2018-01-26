@@ -22,45 +22,45 @@
         label="Region"
         v-model="customerData.customerRegion"
         :items="regions"
-        :rules="[v => !!v || 'Region is required']"
       ></v-select>
-
+<!--      :rules="[v => !!v || 'Region is required']"
+ -->
        <v-select
         label="Country"
         :items="countries"
         v-model="customerData.country"
          multiple
         chips
-        :rules="[v => v.length>0 || 'Country is required']"
       ></v-select>
-
+<!--    :rules="[v => v.length>0 || 'Country is required']"
+    -->
 
 
       <v-text-field
         label="Problem Statement"
         :auto-grow="true"
         v-model="customerData.problemStatement"
-        :rules="[v => !!v || 'Problem Statement is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters'
-        ]"
         multi-line
         rows="2"
         :counter="600"
       ></v-text-field>
-
+<!--  :rules="[v => !!v || 'Problem Statement is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters'
+        ]"
+      -->
 
       <v-text-field
         label="Solution Provided"
         :auto-grow="true"
         v-model="customerData.solutionProvided"
-        :rules="[v => !!v || 'Solution Provided is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         multi-line
         rows="2"
         :counter="600"
         >
        </v-text-field>
-
+<!--:rules="[v => !!v || 'Solution Provided is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
+        -->
 
       <v-dialog
           persistent
@@ -73,7 +73,6 @@
             slot="activator"
             label="Launch Date"
             v-model="customerData.launchDate"
-            :rules="[v => !!v || 'Launch Date is required']"
             prepend-icon="event"
             readonly
           ></v-text-field>
@@ -87,7 +86,8 @@
             </template>
           </v-date-picker>
         </v-dialog>
-
+<!--  :rules="[v => !!v || 'Launch Date is required']"
+          -->
 
       <v-select
         label="Products"
@@ -96,9 +96,9 @@
         multiple
         chips
         hint="What are the Products Used?"
-        :rules="[v => v.length>0 || 'Products is required']"
       ></v-select>
-
+<!--       :rules="[v => v.length>0 || 'Products is required']"
+ -->
 
       <v-text-field
         v-model="customerData.references"
@@ -106,41 +106,40 @@
         :auto-grow="true"
         multi-line
         rows="2"
-        :rules="[v => !!v || 'References is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
-        :counter="600"
+        :rules="referencesRules"
+        :counter="1000"
       ></v-text-field>
 
       <v-text-field
         v-model="customerData.pointOfContacts"
         :auto-grow="true"
-        label="Point Of Contacts(comma separated)"
-        :rules="[v => !!v || 'Point of Contacts is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
+        label="Point Of Contacts(comma separated valid urls)"
         multi-line
         :counter="600"
         rows="2"
       ></v-text-field>
-
+<!--    :rules="[v => !!v || 'Point of Contacts is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
+    -->
        <v-text-field
         label="Notes"
         v-model="customerData.notes"
-        :rules="[v => !!v || 'Notes is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
       ></v-text-field>
-
+<!-- :rules="[v => !!v || 'Notes is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
+       -->
        <v-text-field
         label="Lessons Learned"
         :auto-grow="true"
         multi-line
         v-model="customerData.lessonLearned"
-        :rules="[v => !!v || 'Lessons Learned is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
         :counter="600"
          rows="2"
       ></v-text-field>
-
+<!-- :rules="[v => !!v || 'Lessons Learned is required',
+          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
+        -->
       <v-btn
         @click="submit"
         :disabled="!valid"
@@ -192,6 +191,21 @@ export default {
     nameRules: [
       v => !!v || "Name is required",
       v => (v && v.length <= 30) || "Name must be less than 30 characters"
+    ],
+
+//      v => !!v || 'References is required',
+ //     v => (v && v.length <= 1000) || 'Must be less than 600 characters',
+
+    referencesRules :[
+          v =>{
+          if(!v) return true;
+          let refs = v.split(",");
+          for(var x=0;x<refs.length;x++){
+            if (!/^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(refs[x].trim()))
+              return "Not a valid url format";
+          }
+          return true;
+          }
     ],
     items: ["Item 1", "Item 2", "Item 3", "Item 4"],
     regions: ["APAC", "NA", "LATAM","EMEA"],
