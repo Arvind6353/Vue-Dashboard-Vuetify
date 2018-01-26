@@ -5,7 +5,7 @@
 </span>
    <v-card>
       <v-card-title>
-        <h1 class="blue--text text--darken-4">Add Customer Data Form</h1>
+        <!-- <h1 class="blue--text text--darken-4">Add Customer Data Form</h1> -->
          </v-card-title>
 
 

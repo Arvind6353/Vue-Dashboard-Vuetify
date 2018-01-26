@@ -7,7 +7,7 @@
         <v-tabs-slider color="yellow"></v-tabs-slider>
 
         <v-tabs-item to="/search">
-          <v-icon>list</v-icon>
+          <v-icon>dashboard</v-icon>
         Dashboard
         </v-tabs-item>
         <v-tabs-item to="/adds">

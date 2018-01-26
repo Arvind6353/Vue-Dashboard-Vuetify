@@ -4,7 +4,7 @@
 <customer-nav></customer-nav>
   <v-card>
       <v-card-title>
-        <span class="title">Customer Data</span>
+        <span class="title"></span>
         <v-spacer></v-spacer>
         <v-text-field
           append-icon="search"
