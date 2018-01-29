@@ -18,14 +18,14 @@
               <v-list-tile-title class='black--text text--darken-2' style="white-space:word-wrap">{{value | splitter}}</v-list-tile-title>
             </v-list-tile-content>
             <div  v-if="key =='references'">
-              <div v-if="value == null">
+              <div v-if="value == null || value ==''">
                  <v-list-tile-content>
                   <v-list-tile-title class="title" ><span class="blue--text text--darken-4">{{key | upperCase }}</span></v-list-tile-title>
                   <v-list-tile-title class='black--text text--darken-2' style="white-space:word-wrap">{{value}}</v-list-tile-title>
                 </v-list-tile-content>
               </div>
               <div v-else>
-                <v-list-tile-content v-for="(ref,index) in value.split(',')">
+                <v-list-tile-content v-for="(ref,index) in value">
                       <v-list-tile-title class="title" ><span class="blue--text text--darken-4">{{key | upperCase }}&nbsp;{{index+1}}</span></v-list-tile-title>
                       <v-list-tile-title class='black--text text--darken-2' style="white-space:word-wrap"><a :href="ref" target="_blank">{{ref}}</a></v-list-tile-title>
                 <br/>

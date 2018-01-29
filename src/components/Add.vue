@@ -4,9 +4,13 @@
   <customer-nav></customer-nav>
 </span>
    <v-card>
-      <v-card-title>
-        <!-- <h1 class="blue--text text--darken-4">Add Customer Data Form</h1> -->
-         </v-card-title>
+          <v-toolbar color="purple" dark v-if="isEdit ==true">
+            <v-toolbar-title class="display-1">Edit Customer Data</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon>
+
+            </v-btn>
+        </v-toolbar>
 
 
   <v-form v-model="valid" ref="form" lazy-validation>
@@ -167,7 +171,10 @@ export default {
     $props: {
       handler: function(val, oldVal) {
         console.log("watch", val);
-        let obj = val.item;
+        let obj = Object.assign({},val.item);
+        if(obj.references && obj.references.length > 0){
+          obj.references = obj.references.join(",");
+        }
         this.customerData = Object.assign({}, obj);
       },
       deep: true
@@ -185,7 +192,7 @@ export default {
       solutionProvided: "",
       notes: "",
       products: null,
-      references: "",
+      references: null,
       pointOfContacts: ""
     },
     nameRules: [
@@ -240,10 +247,13 @@ export default {
     submit() {
       if (this.$refs.form.validate()) {
         // Native form submission is not yet supported
+        let cusData = Object.assign({},this.customerData);
+        if(cusData.references)
+          cusData.references = cusData.references.split(",");
 
         if (!this.isEdit) {
           this.$http
-            .post(config.serverUrl+"/customer", this.customerData, {
+            .post(config.serverUrl+"/customer", cusData, {
               headers: { "content-type": "application/json" }
             })
             .then(
@@ -259,7 +269,7 @@ export default {
         } else {
           {
           this.$http
-            .put(config.serverUrl+"/customer", this.customerData, {
+            .put(config.serverUrl+"/customer", cusData, {
               headers: { "content-type": "application/json" }
             })
             .then(
