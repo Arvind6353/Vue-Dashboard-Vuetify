@@ -1,6 +1,6 @@
 <template>
   <v-card>
-        <v-toolbar color="purple" dark>
+        <v-toolbar dark color="primary">
           <v-toolbar-title class="display-1">{{customerData.customerName}}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-btn icon>

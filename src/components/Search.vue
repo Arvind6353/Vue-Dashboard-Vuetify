@@ -95,7 +95,9 @@
     </v-card>
 
  <v-layout row justify-center>
-      <v-dialog v-model="editDialog" max-width="1000px">
+      <v-dialog v-model="editDialog"
+       fullscreen transition="dialog-bottom-transition"
+      >
        <Add :is-edit="true" :item="item"
        @close-edit-dialog="closeEditDialog"
        @dismiss-edit-dialog="dismissEditDialog"></Add>
@@ -103,8 +105,9 @@
   </v-layout>
 
    <v-layout row justify-center>
-      <v-dialog v-model="viewDialog" max-width="800px">
+      <v-dialog v-model="viewDialog" fullscreen transition="dialog-bottom-transition">
        <ViewDetail :cusData="cusData"
+        @dismiss-view-dialog="dismissViewDialog"
       ></ViewDetail>
       </v-dialog>
   </v-layout>
@@ -214,16 +217,16 @@ export default {
     },
     editCustomerData(data) {
       this.editDialog = true;
-      this.item = data;
+      this.item = Object.assign({},data);
 
     },
     deleteCustomerData(data) {
       this.deleteDialog = true;
-      this.delData = data;
+      this.delData = Object.assign({},data);
     },
     viewCustomerData(data) {
         this.viewDialog = true;
-        this.cusData = data;
+        this.cusData = Object.assign({},data);
     },
     closeEditDialog() {
       this.editDialog = false;
@@ -231,6 +234,9 @@ export default {
     },
     dismissEditDialog() {
       this.editDialog = false;
+    },
+    dismissViewDialog() {
+      this.viewDialog = false;
     },
     closeDeleteDialog() {
       this.deleteDialog = false;

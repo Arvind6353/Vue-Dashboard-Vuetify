@@ -4,14 +4,14 @@
   <customer-nav></customer-nav>
 </span>
    <v-card>
-          <v-toolbar color="purple" dark v-if="isEdit ==true">
+          <v-toolbar dark color="primary" v-if="isEdit == true">
             <v-toolbar-title class="display-1">Edit Customer Data</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-btn icon>
-
-            </v-btn>
+             <v-btn icon @click="dismiss">
+                <v-icon>close</v-icon>
+              </v-btn>
         </v-toolbar>
-
+<br/>
 
   <v-form v-model="valid" ref="form" lazy-validation>
       <v-text-field
@@ -106,7 +106,7 @@
 
       <v-text-field
         v-model="customerData.references"
-        label="References(comma separated)"
+        label="References(comma separated valid urls)"
         :auto-grow="true"
         multi-line
         rows="2"
@@ -117,7 +117,7 @@
       <v-text-field
         v-model="customerData.pointOfContacts"
         :auto-grow="true"
-        label="Point Of Contacts(comma separated valid urls)"
+        label="Point Of Contacts(comma separated)"
         multi-line
         :counter="600"
         rows="2"
@@ -151,7 +151,8 @@
         Submit
       </v-btn>
      <!-- <v-btn @click="clear">Clear</v-btn> -->
-      <v-btn @click="dismiss">Dismiss</v-btn>
+      <v-btn @click="dismiss" v-if="isEdit==true">Dismiss</v-btn>
+      <v-btn @click="cancel" v-else>Cancel</v-btn>
     </v-form>
     </v-card>
 </div>
@@ -294,6 +295,9 @@ export default {
     },
     dismiss() {
        this.$emit("dismiss-edit-dialog");
+    },
+    cancel() {
+      this.$router.push("search");
     }
   }
 };
