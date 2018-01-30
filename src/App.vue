@@ -10,7 +10,7 @@
           <v-icon>dashboard</v-icon>
         Dashboard
         </v-tabs-item>
-        <v-tabs-item to="/adds">
+        <v-tabs-item to="/confluence">
           <v-icon>search</v-icon>
           Paypal Confluence
         </v-tabs-item>

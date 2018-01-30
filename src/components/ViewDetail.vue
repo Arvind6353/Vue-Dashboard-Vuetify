@@ -28,7 +28,7 @@
             >
               <v-card-title>
                 <div class="title blue--text text--darken-4">
-                 {{key | upperCase }}
+              {{key | upperCase }}
                   </div>
               </v-card-title>
 
@@ -48,11 +48,11 @@
 <!-- end of non reference cards -->
 <!-- references empty -->
             <v-card color="white darken-4" class="white--text"
-              v-if="key =='references' && value == null || value ==''"
+              v-if="key =='references' && (value == null || value =='')"
             >
               <v-card-title>
                 <div class="title blue--text text--darken-4">
-                 {{key | upperCase }}
+                {{key | upperCase }}
                   </div>
               </v-card-title>
                <v-card-title>
