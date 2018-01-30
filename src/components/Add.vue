@@ -12,6 +12,9 @@
               </v-btn>
         </v-toolbar>
 <br/>
+ <v-alert color="error" icon="danger" dismissible v-model="isError">
+        Some Error Occurred. Please try again!
+ </v-alert>
 
   <v-form v-model="valid" ref="form" lazy-validation>
       <v-text-field
@@ -183,6 +186,7 @@ export default {
   },
   data: () => ({
     valid: false,
+    isError: false,
     customerData: {
       customerName: "",
       customerRegion: "",
@@ -260,11 +264,14 @@ export default {
             .then(
               result => {
                 console.log("data from server ", result.data);
+                this.isError = false;
                 this.$router.push("search");
               },
               error => {
                 console.error(error);
-                this.$router.push("errorpage");
+                this.isError = true;
+                window.scrollTo(0,0);
+               //this.$router.push("errorpage");
               }
             );
         } else {
@@ -279,11 +286,14 @@ export default {
                 if (this.isEdit) {
                   this.$emit("close-edit-dialog");
                 }
+                this.isError = false;
                 this.$router.push("search");
               },
               error => {
                 console.error(error);
-                this.$router.push("errorpage");
+                this.isError = true;
+                window.scrollTo(0,0);
+              //this.$router.push("errorpage");
               }
             );
         }

@@ -9,7 +9,7 @@ export default {
   name: 'errordetail',
   data () {
     return {
-      msg: 'Some Internal Server Error Occurred!'
+      msg: 'Internal Server Error Occurred!'
     }
   }
 }

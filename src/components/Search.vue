@@ -72,7 +72,6 @@
           <td>{{ props.item.country | multicountry }}</td>
           <td>{{ props.item.launchDate }}</td>
           <td>{{ props.item.products | splitter }}</td>
-          <td>{{ props.item.pointOfContacts }}</td>
           <td>
             <v-btn icon color="success" @click="viewCustomerData(props.item)">
               <v-icon>list</v-icon>
@@ -87,8 +86,8 @@
         </tr>
       </template>
         <template slot="no-data">
-        <v-alert :value="true" color="error" icon="warning">
-          Sorry, nothing to display here
+        <v-alert :value="true" :color="loadingColor" :icon="loadingIcon">
+          {{loadingMsg}}
         </v-alert>
       </template>
     </v-data-table>
@@ -142,6 +141,9 @@ export default {
       pagination: {
         sortBy: 'customerName'
       },
+      loadingMsg: 'Loading Data',
+      loadingColor: 'success',
+      loadingIcon: 'info',
       search: '',
       editDialog: false,
       viewDialog : false,
@@ -160,8 +162,7 @@ export default {
         { text: 'Region', value: 'customerRegion' },
         { text: 'Country', value: 'country' },
         { text: 'Launch Date', value: 'launchDate' },
-        { text: 'Products', value: 'products' },
-        { text: 'Point Of Contacts', value: 'pointOfContacts' }
+        { text: 'Products', value: 'products' }
 
       ],
       items: []
@@ -194,11 +195,18 @@ export default {
       }
     },
     loadData () {
+      this.loadingColor ="success";
+      this.loadingIcon = "info";
       this.getCustomerData()
         .then(data => {
           setTimeout(() =>{
               this.loading = false
               this.items = data
+              if(!this.items || this.items.length == 0) {
+                this.loadingMsg = "No data found";
+                this.loadingColor = "red";
+                this.loadingIcon = "warning";
+              }
           },2000);
       })
     },
@@ -210,6 +218,9 @@ export default {
         }, error => {
             this.loading = false;
             this.items = [];
+            this.loadingMsg = "Some Error Occurred . Please try again!";
+            this.loadingColor = "red";
+            this.loadingIcon = "warning";
             console.error(error);
             this.$router.push("errorpage");
 
@@ -252,6 +263,9 @@ export default {
             this.loading = false;
             this.deleteDialog = false;
             this.items = [];
+            this.loadingMsg = "Some Error Occurred . Please try again!";
+            this.loadingColor = "red";
+            this.loadingIcon = "warning";
             console.error(error);
             this.$router.push("errorpage");
       });
