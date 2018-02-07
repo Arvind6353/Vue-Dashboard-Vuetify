@@ -36,25 +36,27 @@
                 </template>
 
                 <template slot="item" slot-scope="data" v-if ="data.item.shared_link != null">
-                  <template v-if="typeof data.item !== 'object'">
-                  </template>
-                  <template v-else>
+
+                  <template v-if="typeof data.item == 'object'">
 
                    <v-list-tile-content three-line>
 
-                    <v-list-tile-title style="height:25px !important">
-                      <v-icon :color="getColor(data.item.name)">
-                          {{data.item.name | icon}}
-                        </v-icon>
-                        &nbsp;
-                      <span class=" black--text text--darken-4">{{data.item.name | uppercase}}
-                        </span>
-                      </v-list-tile-title>
+                      <v-list-tile-title style="height:25px !important">
+                          <v-icon :color="getColor(data.item.name)">
+                              {{data.item.name | icon}}
+                          </v-icon>
+                            &nbsp;
+                          <span class=" black--text text--darken-4">{{data.item.name | uppercase}}
+                          </span>
+                        </v-list-tile-title>
 
-                      <v-list-tile-sub-title>
+                        <v-list-tile-sub-title>
 
-                      <a target="_blank" class="blue--text text--darken-4"style="text-decoration:none;margin-left:35px!important;" :href="data.item.shared_link.url">View this </a>
-                        </v-list-tile-sub-title>
+                          <a target="_blank" class="blue--text text--darken-4"style="text-decoration:none;margin-left:35px!important;" :href="data.item.shared_link.url">View </a>
+
+                          <a @click="copy(data.item.shared_link.url)" href="#" class="blue--text text--darken-4" style="text-decoration:none;margin-left:10px!important;">Copy link</a>
+
+                          </v-list-tile-sub-title>
 
                   </v-list-tile-content>
 
@@ -91,6 +93,14 @@ export default {
     }
   },
   methods: {
+    copy : function(url){
+      var aux = document.createElement("input");
+      aux.setAttribute("value", url);
+      document.body.appendChild(aux);
+      aux.select();
+      document.execCommand("copy");
+      document.body.removeChild(aux);
+    },
     doSearch: debounce(function(event) {
       this.loading = true;
       var v = event.target.value;
@@ -143,6 +153,17 @@ export default {
     }
   }
 };
+
+function myFunction() {
+  var aux = document.createElement("input");
+  aux.setAttribute("value", document.getElementById(elementId).href);
+  document.body.appendChild(aux);
+  aux.select();
+  document.execCommand("copy");
+  document.body.removeChild(aux);
+}
+
+
 </script>
 <style >
 .test>.card > ul >li>a {
