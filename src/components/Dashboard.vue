@@ -1,7 +1,7 @@
 <template>
 <div id="app">
 
-<customer-nav></customer-nav>
+<dashboard-nav></dashboard-nav>
   <v-card>
       <v-card-title>
         <span class="title"></span>
@@ -130,11 +130,11 @@
 
 <script>
 import config from '../config'
-import CustomerNav from './CustomerNav.vue'
+import DashboardNav from './DashboardNav.vue'
 
 export default {
  components: {
-    "customer-nav": CustomerNav
+    "dashboard-nav": DashboardNav
   },
   data () {
     return {

@@ -1,26 +1,23 @@
 <template>
 <div>
-<v-toolbar  app color="primary">
-   <v-toolbar-title class="ml-0 pl-3">
-      <span class="title google_font hidden-xs-only"></span>
-   </v-toolbar-title>
-   <v-spacer class="hidden-xs-only"></v-spacer>
-</v-toolbar>
-<br/>
+  <ContentSearchNav></ContentSearchNav>
+
                <v-select
                 label="Start Typing ..."
                 v-bind:items="docs"
                 :loading="loading"
                 v-model="doc"
-                light
-                solo
+                dark
                 chips
                 item-text="name"
                 item-value="name"
-                max-height="auto"
                 autocomplete
+                max-height="300"
                 @input.native = "doSearch"
+                no-data-text = "No result found"
                 content-class="test"
+                :overflow="true"
+                :clearable="true"
               >
                 <template slot="selection" slot-scope="data">
 
@@ -31,32 +28,33 @@
                     :key="JSON.stringify(data.item)"
                   >
                    {{data.item.name | uppercase}}
-                    <v-icon
+                    <!-- <v-icon
                           @click="closeThis">close
-                    </v-icon>
+                    </v-icon> -->
 
                   </v-chip>
                 </template>
 
-                <template slot="item" slot-scope="data">
+                <template slot="item" slot-scope="data" v-if ="data.item.shared_link != null">
                   <template v-if="typeof data.item !== 'object'">
                   </template>
                   <template v-else>
 
                    <v-list-tile-content three-line>
 
-                <v-list-tile-title style="height:30px !important">
-                  <v-icon :color="getColor(data.item.name)">
-                      {{data.item.name | icon}}
-                    </v-icon>
-                    &nbsp;&nbsp;&nbsp;
-                  <span class=" blue--text text--darken-4">{{data.item.name | uppercase}}
-                    </span>
-                  </v-list-tile-title>
+                    <v-list-tile-title style="height:25px !important">
+                      <v-icon :color="getColor(data.item.name)">
+                          {{data.item.name | icon}}
+                        </v-icon>
+                        &nbsp;
+                      <span class=" black--text text--darken-4">{{data.item.name | uppercase}}
+                        </span>
+                      </v-list-tile-title>
 
-                      <v-list-tile-sub-title v-if ="data.item.shared_link != null" > <br/>
-                        <a target="_blank" style="text-decoration:none" :href="data.item.shared_link.url">View this </a>
-                      </v-list-tile-sub-title>
+                      <v-list-tile-sub-title>
+
+                      <a target="_blank" class="blue--text text--darken-4"style="text-decoration:none;margin-left:35px!important;" :href="data.item.shared_link.url">View this </a>
+                        </v-list-tile-sub-title>
 
                   </v-list-tile-content>
 
@@ -72,23 +70,31 @@ import debounce from "debounce";
 import config from '../config'
 
 export default {
-  name: "confluence",
+  name: "ContentSearch",
   data() {
     return {
       loading: false,
-      items: [],
-      search: null,
-      search1: null,
-      select: [],
       doc: [],
       docs: []
     };
+  },
+  watch: {
+    'doc':{
+      handler: function (val, oldVal) {
+        console.log('watch', val)
+        if(!val || val.length == 0){
+          this.docs = [];
+          return;
+       }
+      },
+      deep: true
+    }
   },
   methods: {
     doSearch: debounce(function(event) {
       this.loading = true;
       var v = event.target.value;
-      console.log("v --", v);
+      console.log("val --", v);
         if (v == "") {
           this.docs = [];
           this.loading = false;
@@ -98,8 +104,11 @@ export default {
         if (event.target.value.length > 0) {
 
             this.$http.get(config.serverUrl+"/search?query="+event.target.value).then(result => {
-                this.docs = result.data;
-                this.loading = false;
+
+                this.docs = result.data.filter(entry => {
+                    return entry.shared_link != null
+                });
+               this.loading = false;
             }, error =>{
                 console.log("errror");
                 this.loading = false;
@@ -135,8 +144,12 @@ export default {
   }
 };
 </script>
-<<style>
+<style >
 .test>.card > ul >li>a {
-   height : 100px !important;
+   height : 70px !important;
+}
+.input-group--autocomplete .input-group__input{
+      background: #424242 !important;
+
 }
 </style>

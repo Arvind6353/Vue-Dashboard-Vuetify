@@ -1,7 +1,7 @@
 <template>
 <div id="app">
  <span v-if ="isEdit!=true">
-  <customer-nav></customer-nav>
+  <dashboard-nav></dashboard-nav>
 </span>
    <v-card>
           <v-toolbar dark color="primary" v-if="isEdit == true">
@@ -165,11 +165,11 @@
 
 <script>
 import config from '../config'
-import CustomerNav from './CustomerNav.vue'
+import DashboardNav from './DashboardNav.vue'
 export default {
   props: ["isEdit", "item"],
   components: {
-    "customer-nav": CustomerNav
+    "dashboard-nav": DashboardNav
   },
   watch: {
     $props: {
@@ -265,7 +265,7 @@ export default {
               result => {
                 console.log("data from server ", result.data);
                 this.isError = false;
-                this.$router.push("search");
+                this.$router.push("dashboard");
               },
               error => {
                 console.error(error);
@@ -287,7 +287,7 @@ export default {
                   this.$emit("close-edit-dialog");
                 }
                 this.isError = false;
-                this.$router.push("search");
+                this.$router.push("dashboard");
               },
               error => {
                 console.error(error);
@@ -307,7 +307,7 @@ export default {
        this.$emit("dismiss-edit-dialog");
     },
     cancel() {
-      this.$router.push("search");
+      this.$router.push("dashboard");
     }
   }
 };
