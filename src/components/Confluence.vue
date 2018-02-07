@@ -5,28 +5,13 @@
       <span class="title google_font hidden-xs-only"></span>
    </v-toolbar-title>
    <v-spacer class="hidden-xs-only"></v-spacer>
-
-
-      <!-- <v-select
-                label="Start typing..."
-                autocomplete
-                :loading="loading"
-                light
-                solo
-                cache-items
-                chips
-                :items="items"
-                :search-input.sync="search"
-                v-model="select"
-              >
-              </v-select> -->
-
-
+</v-toolbar>
+<br/>
                <v-select
                 label="Start Typing ..."
-                v-bind:items="items"
+                v-bind:items="docs"
                 :loading="loading"
-                v-model="e11"
+                v-model="doc"
                 light
                 solo
                 chips
@@ -34,18 +19,21 @@
                 item-value="name"
                 max-height="auto"
                 autocomplete
-                @input.native = "querySelections2"
+                @input.native = "doSearch"
+                content-class="test"
               >
-              <template slot="selection" slot-scope="data">
+                <template slot="selection" slot-scope="data">
 
                   <v-chip
                     @input="data.parent.selectItem(data.item)"
                     :selected="data.selected"
-                    class="chip--select-multi"
+                    class="chip--select-single"
                     :key="JSON.stringify(data.item)"
                   >
-                    {{ data.item.name }}           <v-icon
-                    @click="closeThis">close</v-icon>
+                   {{data.item.name | uppercase}}
+                    <v-icon
+                          @click="closeThis">close
+                    </v-icon>
 
                   </v-chip>
                 </template>
@@ -54,186 +42,101 @@
                   <template v-if="typeof data.item !== 'object'">
                   </template>
                   <template v-else>
-                    <v-list-tile-content>
-                      <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                      <v-list-tile-sub-title v-html="data.item.group"></v-list-tile-sub-title>
-                    </v-list-tile-content>
+
+                   <v-list-tile-content three-line>
+
+                <v-list-tile-title style="height:30px !important">
+                  <v-icon :color="getColor(data.item.name)">
+                      {{data.item.name | icon}}
+                    </v-icon>
+                    &nbsp;&nbsp;&nbsp;
+                  <span class=" blue--text text--darken-4">{{data.item.name | uppercase}}
+                    </span>
+                  </v-list-tile-title>
+
+                      <v-list-tile-sub-title v-if ="data.item.shared_link != null" > <br/>
+                        <a target="_blank" style="text-decoration:none" :href="data.item.shared_link.url">View this </a>
+                      </v-list-tile-sub-title>
+
+                  </v-list-tile-content>
+
                   </template>
                 </template>
                </v-select>
-</v-toolbar>
 
 </div>
 </template>
 
 <script>
 import debounce from "debounce";
+import config from '../config'
 
 export default {
   name: "confluence",
   data() {
-    let srcs = {
-      1: "/static/doc-images/lists/1.jpg",
-      2: "/static/doc-images/lists/2.jpg",
-      3: "/static/doc-images/lists/3.jpg",
-      4: "/static/doc-images/lists/4.jpg",
-      5: "/static/doc-images/lists/5.jpg"
-    };
-
     return {
       loading: false,
       items: [],
       search: null,
       search1: null,
       select: [],
-      states: [
-        "Alabama",
-        "Alaska",
-        "American Samoa",
-        "Arizona",
-        "Arkansas",
-        "California",
-        "Colorado",
-        "Connecticut",
-        "Delaware",
-        "District of Columbia",
-        "Federated States of Micronesia",
-        "Florida",
-        "Georgia",
-        "Guam",
-        "Hawaii",
-        "Idaho",
-        "Illinois",
-        "Indiana",
-        "Iowa",
-        "Kansas",
-        "Kentucky",
-        "Louisiana",
-        "Maine",
-        "Marshall Islands",
-        "Maryland",
-        "Massachusetts",
-        "Michigan",
-        "Minnesota",
-        "Mississippi",
-        "Missouri",
-        "Montana",
-        "Nebraska",
-        "Nevada",
-        "New Hampshire",
-        "New Jersey",
-        "New Mexico",
-        "New York",
-        "North Carolina",
-        "North Dakota",
-        "Northern Mariana Islands",
-        "Ohio",
-        "Oklahoma",
-        "Oregon",
-        "Palau",
-        "Pennsylvania",
-        "Puerto Rico",
-        "Rhode Island",
-        "South Carolina",
-        "South Dakota",
-        "Tennessee",
-        "Texas",
-        "Utah",
-        "Vermont",
-        "Virgin Island",
-        "Virginia",
-        "Washington",
-        "West Virginia",
-        "Wisconsin",
-        "Wyoming"
-      ],
-      e11: [],
-      people: [
-        { name: "Sandra Adams", group: "Group 1", avatar: srcs[1] },
-        { name: "Ali Connors", group: "Group 1", avatar: srcs[2] },
-        { name: "Trevor Hansen", group: "Group 1", avatar: srcs[3] },
-        { name: "Tucker Smith", group: "Group 1", avatar: srcs[2] },
-        { name: "Britta Holt", group: "Group 2", avatar: srcs[4] },
-        { name: "Jane Smith ", group: "Group 2", avatar: srcs[5] },
-        { name: "John Smith", group: "Group 2", avatar: srcs[1] },
-        { name: "Sandra Williams", group: "Group 2", avatar: srcs[3] }
-      ]
+      doc: [],
+      docs: []
     };
   },
-  watch: {
-    search1(val) {
-      if (val == "") {
-        this.querySelections1(val);
-        return;
-      } else if (val && val.length > 1) {
-        this.querySelections1(val);
-      }
-    }
-  },
   methods: {
-    querySelections(v) {
-      this.loading = true;
-      // Simulated ajax query
-      setTimeout(() => {
-        this.items = this.states.filter(e => {
-          return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
-        });
-        this.loading = false;
-      }, 500);
-    },
-    querySelections1(v) {
-      this.loading = true;
-      console.log("v --", v);
-
-      // Simulated ajax query
-      setTimeout(() => {
-        if (v == "") {
-          this.items = this.people.slice(0);
-          this.loading = false;
-          this.e11 = null;
-          return;
-        }
-        this.items = this.people.filter(e => {
-          return (
-            ((e && e.name) || "")
-              .toLowerCase()
-              .indexOf((v || "").toLowerCase()) > -1
-          );
-        });
-        this.loading = false;
-      }, 500);
-    },
-
-    querySelections2: debounce(function(event) {
+    doSearch: debounce(function(event) {
       this.loading = true;
       var v = event.target.value;
       console.log("v --", v);
-      // Simulated ajax query
-      setTimeout(() => {
         if (v == "") {
-          this.items = this.people.slice(0);
+          this.docs = [];
           this.loading = false;
-          this.e11 = null;
+          this.doc = null;
           return;
         }
         if (event.target.value.length > 0) {
-          this.items = this.people.filter(e => {
-            return (
-              ((e && e.name) || "")
-                .toLowerCase()
-                .indexOf((v || "").toLowerCase()) > -1
-            );
-          });
-          this.loading = false;
+
+            this.$http.get(config.serverUrl+"/search?query="+event.target.value).then(result => {
+                this.docs = result.data;
+                this.loading = false;
+            }, error =>{
+                console.log("errror");
+                this.loading = false;
+          })
         }
-      }, 500);
     }, 200),
     closeThis() {
-      this.items = this.people.splice();
-      this.e11 = null;
+      this.docs = [];
+      this.doc = null;
+    },
+    getColor( value){
+      if (!value) return ''
+      var iconType = value.split('.')[1].trim();
+      if(iconType == 'docx'){
+          return  'blue darken-2'
+      } else {
+        return 'red'
+      }
+
+    }
+  },
+  filters: {
+    icon: function (value) {
+      if (!value) return ''
+      var iconType = value.split('.')[1].trim();
+      if(iconType == 'docx'){
+          return  'fa fa-file-word-o fa-x'
+      } else {
+ return 'fa fa-file-powerpoint-o fa-x'
+      }
+
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<<style>
+.test>.card > ul >li>a {
+   height : 100px !important;
+}
+</style>

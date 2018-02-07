@@ -10,6 +10,7 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import VueResource from 'vue-resource';
 import './filters/splitter'
+import './filters/uppercase'
 
 Vue.use(VueResource);
 
