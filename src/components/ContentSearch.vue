@@ -175,6 +175,12 @@ function myFunction() {
 }
 .input-group--autocomplete .input-group__input{
       background: #424242 !important;
+      height : 70px !important;
 
+}
+
+.input-group--autocomplete > label {
+  vertical-align:  middle !important;
+  margin-top:10px;
 }
 </style>

@@ -31,7 +31,7 @@
           </v-btn>
 
           <v-btn flat to="/contentsearch"> Box Content&nbsp;
-            <v-icon>folder</v-icon>
+            <v-icon>search</v-icon>
           </v-btn>
           <v-btn flat to="/confluencesearch"> Confluence Content&nbsp;
             <v-icon>description</v-icon>
