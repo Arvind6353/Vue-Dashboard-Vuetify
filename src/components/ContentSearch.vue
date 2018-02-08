@@ -12,7 +12,7 @@
                 item-text="name"
                 item-value="name"
                 autocomplete
-                max-height="300"
+                max-height="450"
                 @input.native = "doSearch"
                 no-data-text = "No result found"
                 content-class="test"
@@ -35,7 +35,7 @@
                   </v-chip>
                 </template>
 
-                <template slot="item" slot-scope="data" v-if ="data.item.shared_link != null">
+                <template slot="item" slot-scope="data">
 
                   <template v-if="typeof data.item == 'object'">
 
@@ -50,12 +50,16 @@
                           </span>
                         </v-list-tile-title>
 
-                        <v-list-tile-sub-title>
+                        <v-list-tile-sub-title v-if ="data.item.shared_link != null">
 
                           <a target="_blank" class="blue--text text--darken-4"style="text-decoration:none;margin-left:35px!important;" :href="data.item.shared_link.url">View </a>
 
                           <a @click="copy(data.item.shared_link.url)" href="#" class="blue--text text--darken-4" style="text-decoration:none;margin-left:10px!important;">Copy link</a>
 
+                          </v-list-tile-sub-title>
+
+                          <v-list-tile-sub-title v-else>
+                            <span class="blue--text text--darken-4" style="margin-left:35px!important;">No Link Found</span>
                           </v-list-tile-sub-title>
 
                   </v-list-tile-content>
@@ -116,7 +120,7 @@ export default {
             this.$http.get(config.serverUrl+"/search?query="+event.target.value).then(result => {
 
                 this.docs = result.data.filter(entry => {
-                    return entry.shared_link != null
+                    return true
                 });
                this.loading = false;
             }, error =>{

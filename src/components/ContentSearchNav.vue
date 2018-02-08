@@ -1,5 +1,6 @@
 <template>
- <v-toolbar dark color="primary">
+<div></div>
+ <!-- <v-toolbar dark color="primary">
       <v-toolbar-title class="white--text" @click="gotohome"></v-toolbar-title>
       <v-spacer></v-spacer>
 
@@ -11,7 +12,7 @@
         </v-btn>
 
   </v-toolbar>
-
+ -->
 </template>
 
 <script>
