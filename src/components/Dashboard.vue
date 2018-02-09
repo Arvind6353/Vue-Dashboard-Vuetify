@@ -28,16 +28,6 @@
 
       <template slot="headers" slot-scope="props">
         <tr>
-         <!-- <th>
-            <v-checkbox
-              primary
-              hide-details
-              @click.native="toggleAll"
-              :input-value="props.all"
-              :indeterminate="props.indeterminate"
-            ></v-checkbox>
-          </th>
-          -->
           <th v-for="header in props.headers" :key="header.text"
              :class="[ !header.disableSort ? 'column sortable' :'' ,
                        !header.disableSort && pagination.descending ? 'desc' : 'asc',
@@ -59,14 +49,7 @@
 
       <template slot="items" slot-scope="props">
         <tr :active="props.selected" >
-          <!--<td>
-            <v-checkbox
-              primary
-              hide-details
-              :input-value="props.selected"
-              @click="props.selected = !props.selected"
-            ></v-checkbox>
-          </td> -->
+
           <td>{{ props.item.customerName }}</td>
           <td>{{ props.item.customerRegion }}</td>
           <td>{{ props.item.country | multicountry }}</td>

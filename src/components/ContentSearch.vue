@@ -1,186 +1,222 @@
 <template>
-<div>
+<div id="app">
+
   <ContentSearchNav></ContentSearchNav>
+  <v-card>
+      <v-card-title>
+        <span class="title"></span>
+        <v-text-field
+          append-icon="search"
+          label="Start Typing ..."
+          single-line
+          hide-details
+          v-model="search"
+          @input.native="loadData"
 
-               <v-select
-                label="Start Typing ..."
-                v-bind:items="docs"
-                :loading="loading"
-                v-model="doc"
-                dark
-                chips
-                item-text="name"
-                item-value="name"
-                autocomplete
-                max-height="450"
-                @input.native = "doSearch"
-                no-data-text = "No result found"
-                content-class="test"
-                :overflow="true"
-                :clearable="true"
-              >
-                <template slot="selection" slot-scope="data">
+        ></v-text-field>
+      </v-card-title>
 
-                  <v-chip
-                    @input="data.parent.selectItem(data.item)"
-                    :selected="data.selected"
-                    class="chip--select-single"
-                    :key="JSON.stringify(data.item)"
-                  >
-                   {{data.item.name | uppercase}}
-                    <!-- <v-icon
-                          @click="closeThis">close
-                    </v-icon> -->
+     <!-- v-bind:search="search" -->
+     <v-data-table
+        v-model="selected"
+        v-bind:headers="headers"
+        v-bind:items="items"
+        v-bind:pagination.sync="pagination"
+        item-key="name"
+        class="elevation-1"
+        :loading="loading"
+        hide-actions
+      >
 
-                  </v-chip>
-                </template>
+      <template slot="headers" slot-scope="props">
+        <tr>
+          <th v-for="header in props.headers" :key="header.text"
+             :class="[ !header.disableSort ? 'column sortable' :'' ,
+                       !header.disableSort && pagination.descending ? 'desc' : 'asc',
+                       !header.disableSort && header.value === pagination.sortBy ? 'active' : ''
+                    ]"
+             @click="!header.disableSort && changeSort(header.value)"
+          >
+            <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
+            <span class="heading blue--text text--darken-4">{{ header.text }}</span>
+          </th>
 
-                <template slot="item" slot-scope="data">
+        </tr>
+      </template>
 
-                  <template v-if="typeof data.item == 'object'">
 
-                   <v-list-tile-content three-line>
 
-                      <v-list-tile-title style="height:25px !important">
-                          <v-icon :color="getColor(data.item.name)">
-                              {{data.item.name | icon}}
-                          </v-icon>
-                            &nbsp;
-                          <span class=" black--text text--darken-4">{{data.item.name | uppercase}}
-                          </span>
-                        </v-list-tile-title>
+      <template slot="items" slot-scope="props">
+        <tr :active="props.selected" >
 
-                        <v-list-tile-sub-title v-if ="data.item.shared_link != null">
+          <td>{{ props.item.name }}</td>
+          <td>{{ props.item.id }}</td>
+          <td>{{ props.item.url }}</td>
+        </tr>
+      </template>
+        <template slot="no-data">
+        <v-alert :value="true" :color="loadingColor" :icon="loadingIcon">
+          {{loadingMsg}}
+        </v-alert>
+      </template>
 
-                          <a target="_blank" class="blue--text text--darken-4"style="text-decoration:none;margin-left:35px!important;" :href="data.item.shared_link.url">View </a>
 
-                          <a @click="copy(data.item.shared_link.url)" href="#" class="blue--text text--darken-4" style="text-decoration:none;margin-left:10px!important;">Copy link</a>
+    </v-data-table>
+    {{pagination}} <br/>
+     <v-pagination v-model="pagination.page" :length="pages" :circle="true"
+     ></v-pagination>
+    </v-card>
+  </div>
 
-                          </v-list-tile-sub-title>
-
-                          <v-list-tile-sub-title v-else>
-                            <span class="blue--text text--darken-4" style="margin-left:35px!important;">No Link Found</span>
-                          </v-list-tile-sub-title>
-
-                  </v-list-tile-content>
-
-                  </template>
-                </template>
-               </v-select>
-
-</div>
 </template>
 
+
+
 <script>
-import debounce from "debounce";
 import config from '../config'
+import debounce from "debounce";
+
 
 export default {
-  name: "ContentSearch",
-  data() {
+
+  data () {
     return {
-      loading: false,
-      doc: [],
-      docs: []
-    };
-  },
-  watch: {
-    'doc':{
-      handler: function (val, oldVal) {
-        console.log('watch', val)
-        if(!val || val.length == 0){
-          this.docs = [];
-          return;
-       }
+      pagination: {
+        sortBy: 'name',
+        rowsPerPage : 25
       },
-      deep: true
+      totalItems : 0,
+      loadingMsg: 'No data found',
+      loadingColor: 'red',
+      loadingIcon: 'warning',
+      search: '',
+      selected: [],
+      loading: false,
+      item: {},
+      cusData:{},
+      delData: {},
+      headers: [
+        {
+          text: 'Title',
+          align: 'left',
+          value: 'name'
+        },
+        { text: 'Doc Id', value: 'id' },
+        { text: 'Url', value: 'url' }
+
+      ],
+      items: []
+    }
+  },
+ watch: {
+    pagination: {
+      handler (newVal) {
+        console.log("new vla ", newVal);
+        // alert(newVal)
+        // if(newVal.rowsPerPage * newVal.page > this.items.length && newVal.page !=1 &&
+
+        // newVal.rowsPerPage * newVal.page < this.totalItems ){
+        //   let offset = this.items.length + 1;
+        //     this.callApi(offset);
+
+        // }
+
+      }
+    }
+  },
+
+  mounted () {
+    // this.loadData();
+  },
+
+  filters: {
+    multicountry: function (value) {
+      if(value && value.length > 1) return "Multi Country";
+      if(!value) return '';
+      return value.join(',');
+    }
+  },
+computed: {
+    pages () {
+      var newVal = this.pagination;
+      if(newVal.rowsPerPage * newVal.page > this.items.length && newVal.page !=1 &&
+
+        newVal.rowsPerPage * newVal.page < this.totalItems ){
+          //let offset = parseInt(this.totalItems/this.items.length);
+          let offset = 200*Math.round(this.items.length/200);
+          this.callApi(offset);
+
+        }
+
+      return this.pagination.rowsPerPage ? Math.ceil(this.totalItems / this.pagination.rowsPerPage) : 0
     }
   },
   methods: {
-    copy : function(url){
-      var aux = document.createElement("input");
-      aux.setAttribute("value", url);
-      document.body.appendChild(aux);
-      aux.select();
-      document.execCommand("copy");
-      document.body.removeChild(aux);
-    },
-    doSearch: debounce(function(event) {
-      this.loading = true;
-      var v = event.target.value;
-      console.log("val --", v);
-        if (v == "") {
-          this.docs = [];
-          this.loading = false;
-          this.doc = null;
-          return;
-        }
-        if (event.target.value.length > 0) {
-
-            this.$http.get(config.serverUrl+"/search?query="+event.target.value).then(result => {
-
-                this.docs = result.data.filter(entry => {
-                    return true
-                });
-               this.loading = false;
-            }, error =>{
-                console.log("errror");
-                this.loading = false;
-          })
-        }
-    }, 200),
-    closeThis() {
-      this.docs = [];
-      this.doc = null;
-    },
-    getColor( value){
-      if (!value) return ''
-      var iconType = value.split('.')[1].trim();
-      if(iconType == 'docx'){
-          return  'blue darken-2'
+    changeSort (column) {
+      if (this.pagination.sortBy === column) {
+        this.pagination.descending = !this.pagination.descending
       } else {
-        return 'red'
+        this.pagination.sortBy = column
+        this.pagination.descending = false
       }
+    },
+    loadData : debounce(function(event,offset) {
 
-    }
-  },
-  filters: {
-    icon: function (value) {
-      if (!value) return ''
-      var iconType = value.split('.')[1].trim();
-      if(iconType == 'docx'){
-          return  'fa fa-file-word-o fa-x'
-      } else {
- return 'fa fa-file-powerpoint-o fa-x'
-      }
+      if(!offset){
+          offset = 0;
+        }
+      this.callApi(offset);
+    },1000),
 
+    callApi(offset){
+
+      if(!offset){
+          offset = 0;
+        }
+      this.loadingColor ="success";
+      this.loadingIcon = "info";
+      this.loadingMsg = "Loading Data";
+      this.getCustomerData(this.search, offset)
+        .then(data => {
+              this.loading = false
+              this.pagination.totalItems = data.totalItems;
+              this.totalItems = data.totalItems;
+
+              this.items = [... this.items,  ...data.searchResults.map((entry,index) => {
+                 return { name : entry.name, id: entry.id, url : entry.url, idx:index }
+               })]
+
+              if(!this.items || this.items.length == 0) {
+                this.loadingMsg = "No data found";
+                this.loadingColor = "red";
+                this.loadingIcon = "warning";
+              }
+      })
+    },
+    getCustomerData (param, offset) {
+        if(!param) {
+          param = "search"
+        }
+
+
+        this.loading = true
+        return this.$http.get(config.serverUrl+"/customer/box/"+param+"?offset="+offset).then(result => {
+              return result.data;
+
+        }, error => {
+            this.loading = false;
+            this.items = [];
+            this.totalItems = 0;
+            this.loadingMsg = "Some Error Occurred . Please try again!";
+            this.loadingColor = "red";
+            this.loadingIcon = "warning";
+            console.error(error);
+            this.$router.push("errorpage");
+
+        });
     }
+
   }
-};
-
-function myFunction() {
-  var aux = document.createElement("input");
-  aux.setAttribute("value", document.getElementById(elementId).href);
-  document.body.appendChild(aux);
-  aux.select();
-  document.execCommand("copy");
-  document.body.removeChild(aux);
 }
-
 
 </script>
-<style >
-.test>.card > ul >li>a {
-   height : 70px !important;
-}
-.input-group--autocomplete .input-group__input{
-      background: #424242 !important;
-      height : 70px !important;
-
-}
-
-.input-group--autocomplete > label {
-  vertical-align:  middle !important;
-  margin-top:10px;
-}
-</style>
