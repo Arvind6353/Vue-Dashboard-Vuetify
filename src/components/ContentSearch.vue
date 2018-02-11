@@ -18,8 +18,6 @@
         ></v-text-field>
       </v-card-title>
 
-
-<br/>
 <!--
   {{pagination}} <br/> -->
      <!-- v-bind:search="search" -->
@@ -32,16 +30,30 @@
         class="elevation-1"
         :loading="loading"
         hide-actions
+        fix-headers
       >
 
       <template slot="headers" slot-scope="props">
         <tr>
-          <th v-for="header in props.headers" :key="header.text"
+          <th v-for="header in props.headers.slice(0,1)" :key="header.text"
              :class="[ !header.disableSort ? 'column sortable' :'' ,
                        !header.disableSort && pagination.descending ? 'desc' : 'asc',
                        !header.disableSort && header.value === pagination.sortBy ? 'active' : ''
                     ]"
              @click="!header.disableSort && changeSort(header.value)"
+             style="width:60%"
+             v-if="header.text=='TITLE'"
+          >
+            <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
+            <span class="heading blue--text text--darken-4">{{ header.text }}</span>
+          </th>
+          <th v-for="header in props.headers.slice(1)" :key="header.text"
+             :class="[ !header.disableSort ? 'column sortable' :'' ,
+                       !header.disableSort && pagination.descending ? 'desc' : 'asc',
+                       !header.disableSort && header.value === pagination.sortBy ? 'active' : ''
+                    ]"
+             @click="!header.disableSort && changeSort(header.value)"
+
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
             <span class="heading blue--text text--darken-4">{{ header.text }}</span>
@@ -60,12 +72,24 @@
                               {{props.item.name | icon}}
                           </v-icon>
             &nbsp;&nbsp; {{ props.item.name }}</td>
-          <td>{{ props.item.id }}</td>
-          <td>
-            <span class="blue--text text--darken-4">
-            {{ props.item.url | urlcheck}}
-            </span>
-            </td>
+          <td>{{ props.item.modifiedDate | dateFormat}}</td>
+          <!-- <td>{{ props.item.description | urlcheck}}</td> -->
+
+
+          <td v-if="props.item.url != null">
+            <v-btn icon color="info" class="white--text" @click="viewInBrowser(props.item.url)">
+              <v-icon>link</v-icon>
+            </v-btn>
+            <v-btn icon color="teal darken-1" class="white--text" @click="copy(props.item.url)">
+              <v-icon>fa fa-copy fa-x</v-icon>
+            </v-btn>
+
+          </td>
+
+          <td v-else>
+            <span class="blue--text text--darken-4">N/A</span>
+          </td>
+
         </tr>
       </template>
 
@@ -109,8 +133,9 @@
 
 
 <script>
-import config from '../config'
+import config from '../config';
 import debounce from "debounce";
+import moment from "moment";
 
 
 export default {
@@ -134,11 +159,11 @@ export default {
       headers: [
         {
           text: 'TITLE',
-          value: 'name'
+          value: 'name',
+          width: '10%'
         },
-        { text: 'DOC ID', value: 'id' },
-        { text: 'URL', value: 'url' }
-
+        { text: 'Date Modified', value: 'modifiedDate', align:'right' },
+        { text: 'Actions', value: 'url' }
       ],
       items: []
     }
@@ -218,8 +243,20 @@ export default {
               this.totalItems = data.totalItems;
 
               this.items = [... this.items,  ...data.searchResults.map((entry,index) => {
-                 return { name : entry.name, id: entry.id, url : entry.url, idx:index }
+                 return {
+                    name : entry.name,
+                    id: entry.id,
+                    url : entry.url,
+                    idx:index,
+                    description : entry.description,
+                    modifiedDate : entry.modifiedDate
+                  }
                })]
+
+               /*.filter(entry => {
+                 return entry.url !=null
+               })
+              */
             }
             this.loading = false
             if(!this.items || this.items.length == 0) {
@@ -272,11 +309,23 @@ export default {
           return "red lighten-1"
       } else if ( iconType == 'msg') {
         return "black"
+      } else if ( iconType == 'png' || iconType == 'jpg' || iconType == 'jpeg' || iconType == 'gif') {
+        return "purple"
       } else {
         return "black lighten-2"
       }
 
-
+    },
+    viewInBrowser: function(url){
+      window.open(url,"_blank");
+    },
+    copy : function(url){
+      var aux = document.createElement("input");
+      aux.setAttribute("value", url);
+      document.body.appendChild(aux);
+      aux.select();
+      document.execCommand("copy");
+      document.body.removeChild(aux);
     }
   },
   filters: {
@@ -306,17 +355,21 @@ export default {
           return 'fa fa-file-pdf-o fa-x'
       } else if(iconType == 'msg') {
           return 'fa fa-file-o fa-x'
+      } else if (iconType == 'png' || iconType == 'jpg' || iconType == 'jpeg' || iconType == 'gif') {
+        return "fa fa-file-image-o fa-x"
       } else {
         return 'fa fa-file fa-x'
       }
-
     },
     urlcheck : function(value) {
       if(!value) return "-";
       return value;
+    },
+    dateFormat : function(value) {
+      if(!value) return ''
+      return moment(value).format('MMM Do YYYY')
     }
   }
-
 }
 
 </script>
