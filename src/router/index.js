@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Hello from '@/components/Hello'
 import Dashboard from '@/components/Dashboard'
 import Add from '@/components/Add'
 import ViewDetail from '@/components/ViewDetail'
