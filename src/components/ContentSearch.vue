@@ -147,8 +147,8 @@ export default {
         rowsPerPage : 25
       },
       totalItems : 0,
-      loadingMsg: 'No data found',
-      loadingColor: 'red',
+      loadingMsg: 'Please input the search string',
+      loadingColor: 'success',
       loadingIcon: 'warning',
       search: '',
       selected: [],
@@ -191,9 +191,9 @@ export default {
     pages () {
       var newVal = this.pagination;
 
-      if(newVal.rowsPerPage * newVal.page > this.items.length && newVal.page !=1 &&
-
-        newVal.rowsPerPage * newVal.page < this.totalItems ){
+      if(this.pagination.rowsPerPage * this.pagination.page > this.items.length && this.pagination.page !=1
+// this.pagination.rowsPerPage * this.pagination.page < this.totalItems
+        ){
           //let offset = parseInt(this.totalItems/this.items.length);
           let offset = 200*Math.round(this.items.length/200);
           this.callApi(offset);
@@ -224,7 +224,14 @@ export default {
       if(!offset){
           offset = 0;
         }
-      this.callApi(offset);
+      if(!this.search || this.search == ''){
+        this.loadingColor ="success";
+        this.loadingIcon = "warning";
+        this.loadingMsg = "Please input the search string";
+        return;
+      } else {
+        this.callApi(offset);
+      }
     },1000),
 
     callApi(offset){
