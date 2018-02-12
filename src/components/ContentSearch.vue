@@ -190,9 +190,9 @@ export default {
   computed: {
     pages () {
       var newVal = this.pagination;
-
+      window.scrollTo(0,0);
       if(this.pagination.rowsPerPage * this.pagination.page > this.items.length && this.pagination.page !=1
-// this.pagination.rowsPerPage * this.pagination.page < this.totalItems
+ && this.items.length < this.totalItems
         ){
           //let offset = parseInt(this.totalItems/this.items.length);
           let offset = 200*Math.round(this.items.length/200);
