@@ -9,7 +9,6 @@ import ErrorPage from '@/components/ErrorPage'
 import ContentSearch from '@/components/ContentSearch'
 import ConfluenceSearch from '@/components/ConfluenceSearch'
 import ContentSearchNav from '@/components/ContentSearchNav'
-import Counter from '@/components/Counter'
 
 Vue.component("Add",Add);
 Vue.component("Dashboard", Dashboard);
@@ -20,8 +19,6 @@ Vue.component("ErrorPage",ErrorPage);
 Vue.component("ContentSearch",ContentSearch);
 Vue.component("ConfluenceSearch",ConfluenceSearch);
 Vue.component("ContentSearchNav",ContentSearchNav);
-
-Vue.component("Counter",Counter);
 
 Vue.use(Router)
 
@@ -56,12 +53,6 @@ export default new Router({
       name: 'ErrorPage',
       component: ErrorPage
     },
-    {
-      path: '/counter',
-      name: 'counter',
-      component: Counter
-    },
-
     {
       path: '*',
       component: NotFound
