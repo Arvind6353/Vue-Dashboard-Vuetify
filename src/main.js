@@ -11,12 +11,10 @@ import 'vuetify/dist/vuetify.min.css'
 import VueResource from 'vue-resource';
 import './filters/splitter'
 import './filters/uppercase'
-import {store} from './store/store'
 
 Vue.use(VueResource);
 
 Vue.use(Vuetify);
-
 
 
 Vue.config.productionTip = false
@@ -25,7 +23,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  store,
   template: '<App/>',
   components: { App }
 })
