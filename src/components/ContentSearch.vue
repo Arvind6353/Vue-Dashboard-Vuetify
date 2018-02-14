@@ -242,8 +242,11 @@ export default {
       this.loadingColor ="success";
       this.loadingIcon = "info";
       this.loadingMsg = "Loading Data";
-      this.getCustomerData(this.search, offset)
-        .then(result => {
+      const promise = this.getCustomerData(this.search, offset);
+      this.lastPromise = promise;
+        promise.then(result => {
+          if(this.lastPromise == promise){
+            this.lastPromise = null;
             var data = result.data;
             if(data) {
               this.pagination.totalItems = data.totalItems;
@@ -259,11 +262,6 @@ export default {
                     modifiedDate : entry.modifiedDate
                   }
                })]
-
-               /*.filter(entry => {
-                 return entry.url !=null
-               })
-              */
             }
             this.loading = false
             if(!this.items || this.items.length == 0) {
@@ -271,6 +269,7 @@ export default {
               this.loadingColor = "red";
               this.loadingIcon = "warning";
             }
+          }
       }).catch(error => {
           this.loading = false;
           this.items = [];
