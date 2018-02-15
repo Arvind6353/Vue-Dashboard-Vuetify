@@ -1,14 +1,15 @@
 <template>
 
-<div>
-         <v-tabs  grow dark v-model="active">
-      <v-tabs-bar style="border-top: 1px #003087 solid !important;">
+<div id="tabView">
+         <v-tabs
+   grow dark v-model="active" >
+      <v-tabs-bar style="border-top: 2px #003087 solid !important;">
 
         <v-tabs-slider color="yellow" ></v-tabs-slider>
 
       <v-tabs-item  ripple to="/contentsearch2/dashboardsearch">
         <v-icon>dashboard</v-icon>
-      &nbsp;&nbsp;<span id="d">PS Dashboard</span>
+      &nbsp;&nbsp;<span id="firstTab">PS Dashboard</span>
       </v-tabs-item>
 
       <v-tabs-item ripple to="/contentsearch2/boxcontent" >
@@ -29,7 +30,7 @@
 
       <v-tabs-item  to="/contentsearch2/developerportal">
         <v-icon>code</v-icon>
-          &nbsp;&nbsp;Developer Portal
+          &nbsp;&nbsp;Dev Portal
          </v-tabs-item>
 
 
@@ -38,12 +39,15 @@
          &nbsp;&nbsp; MTS FAQ
          </v-tabs-item>
 
-
       </v-tabs-bar>
 
 
   <v-tabs-items>
-    <router-view></router-view>
+
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+
   </v-tabs-items>
 
   </v-tabs>
@@ -65,12 +69,11 @@ data (){
 
 </script>
 <style scoped>
+/* override style for tab slider */
 .yellow {
     background-color: #003087 !important;
     border-color: #003087 !important;
-    border-width: 3px  solid !important
-}
-ul.tabs__container{
-
+    border-width: 3px  solid !important;
+    height:4px;
 }
 </style>

@@ -64,5 +64,8 @@ export default {
   margin: 2% 2% 0% 5% ;
 
 }
-
+/* override style for active tab */
+  li.tabs__li >a.tabs__item--active {
+    color: #1976D2  !important;
+  }
 </style>

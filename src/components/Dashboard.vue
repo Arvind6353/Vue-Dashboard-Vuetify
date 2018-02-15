@@ -166,7 +166,7 @@ export default {
 
   mounted () {
    this.search = this.$store.getters.getsearch;
-   $("#d").click()
+   $("#firstTab").click()
    this.loadData();
   },
    computed: {
