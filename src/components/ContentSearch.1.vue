@@ -1,6 +1,5 @@
 <template>
 <div>
-  <ContentSearchNav></ContentSearchNav>
 
                <v-select
                 label="Start Typing ..."

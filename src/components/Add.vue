@@ -1,13 +1,17 @@
 <template>
 <div id="app">
  <span v-if ="isEdit!=true">
-  <dashboard-nav></dashboard-nav>
 </span>
    <v-card>
-          <v-toolbar dark color="primary" v-if="isEdit == true">
-            <v-toolbar-title class="display-1">Edit Customer Data</v-toolbar-title>
+          <v-toolbar dark dense color="primary" >
+            <v-toolbar-title class="heading" v-if="isEdit == true">Edit Customer Data</v-toolbar-title>
+             <v-toolbar-title class="heading" v-else>Add Customer Data</v-toolbar-title>
+
             <v-spacer></v-spacer>
-             <v-btn icon @click="dismiss">
+             <v-btn icon @click="dismiss" v-if="isEdit == true">
+                <v-icon>close</v-icon>
+              </v-btn>
+               <v-btn icon @click="cancel" v-else>
                 <v-icon>close</v-icon>
               </v-btn>
         </v-toolbar>
@@ -165,12 +169,9 @@
 
 <script>
 import config from '../config'
-import DashboardNav from './DashboardNav.vue'
 export default {
   props: ["isEdit", "item"],
-  components: {
-    "dashboard-nav": DashboardNav
-  },
+
   watch: {
     $props: {
       handler: function(val, oldVal) {
@@ -180,6 +181,7 @@ export default {
           obj.references = obj.references.join(",");
         }
         this.customerData = Object.assign({}, obj);
+        document.getElementsByClassName('dialog dialog--active')[0].scrollTop = 0
       },
       deep: true
     }
@@ -265,7 +267,13 @@ export default {
               result => {
                 console.log("data from server ", result.data);
                 this.isError = false;
-                this.$router.push("dashboard");
+                this.customerData = null;
+                if (this.isEdit) {
+                  this.$emit("close-edit-dialog");
+                } else {
+                  this.$emit("close-add-dialog");
+                }
+               // this.$router.push("/contentsearch2/dashboardSearch");
               },
               error => {
                 console.error(error);
@@ -285,9 +293,11 @@ export default {
                 console.log("data from server ", result.data);
                 if (this.isEdit) {
                   this.$emit("close-edit-dialog");
+                } else {
+                  this.$emit("close-add-dialog");
                 }
                 this.isError = false;
-                this.$router.push("dashboard");
+                //this.$router.push("/contentsearch2/dashboardSearch");
               },
               error => {
                 console.error(error);
@@ -304,10 +314,12 @@ export default {
       this.$refs.form.reset();
     },
     dismiss() {
+      this.customerData = null;
        this.$emit("dismiss-edit-dialog");
     },
     cancel() {
-      this.$router.push("dashboard");
+      this.customerData = null;
+      this.$emit("dismiss-add-dialog");
     }
   }
 };
@@ -317,5 +329,7 @@ export default {
 form {
   padding-left: 20px;
   padding-right: 20px;
+  margin-left:10%;
+  margin-right:10%;
 }
 </style>

@@ -120,7 +120,7 @@ import moment from "moment";
 
 
 export default {
-name : 'boxcontent',
+name : 'productcentral',
   data () {
     return {
       pagination: {

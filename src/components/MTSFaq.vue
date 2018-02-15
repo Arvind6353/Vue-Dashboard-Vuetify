@@ -120,7 +120,7 @@ import moment from "moment";
 
 
 export default {
-name : 'boxcontent',
+name : 'mtsfaq',
   data () {
     return {
       pagination: {

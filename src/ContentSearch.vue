@@ -1,6 +1,7 @@
 <template>
 <div id="app">
   <v-card>
+
      <v-data-table
         v-model="selected"
         v-bind:headers="headers"
@@ -22,10 +23,10 @@
                     ]"
              @click="!header.disableSort && changeSort(header.value)"
              style="width:60%"
-             v-if="header.text=='Title'"
+             v-if="header.text=='TITLE'"
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            <span class="title blue--text text--darken-4" style="font-size:18px!important">{{ header.text }}</span>
+            <span class="heading blue--text text--darken-4">{{ header.text }}</span>
           </th>
           <th v-for="header in props.headers.slice(1)" :key="header.text"
              :class="[ !header.disableSort ? 'column sortable' :'' ,
@@ -36,7 +37,7 @@
 
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            <span class="title blue--text text--darken-4" style="font-size:18px!important">{{ header.text }}</span>
+            <span class="heading blue--text text--darken-4">{{ header.text }}</span>
           </th>
 
         </tr>
@@ -74,7 +75,6 @@
       </template>
 
       <template slot="no-data">
-
         <v-alert :value="true" :color="loadingColor" :icon="loadingIcon">
           {{loadingMsg}}
         </v-alert>
@@ -139,7 +139,7 @@ name : 'boxcontent',
       delData: {},
       headers: [
         {
-          text: 'Title',
+          text: 'TITLE',
           value: 'name',
           width: '10%'
         },
@@ -151,8 +151,7 @@ name : 'boxcontent',
   },
   mounted () {
     // this.loadData();
-   this.search = this.$store.getters.getsearch;
-   this.loadData({},0)
+    alert('box')
   },
 
   filters: {
@@ -167,7 +166,7 @@ name : 'boxcontent',
       var newVal = this.pagination;
       window.scrollTo(0,0);
       if(this.pagination.rowsPerPage * this.pagination.page > this.items.length && this.pagination.page !=1
-          && this.items.length < this.totalItems
+ && this.items.length < this.totalItems
         ){
           //let offset = parseInt(this.totalItems/this.items.length);
           let offset = 200*Math.round(this.items.length/200);
@@ -176,21 +175,6 @@ name : 'boxcontent',
         }
 
       return this.pagination.rowsPerPage ? Math.ceil(this.totalItems / this.pagination.rowsPerPage) : 0
-    },
-    searchVal (){
-      this.search = this.$store.getters.getsearch;
-      this.loadData({},0)
-      return this.$store.getters.getsearch;
-    }
-  },
-    watch: {
-    'searchVal':{
-      handler: function (val, oldVal) {
-        console.log('watch', val)
-        this.search = val;
-        this.loadData({},0)
-      },
-      deep: true
     }
   },
 

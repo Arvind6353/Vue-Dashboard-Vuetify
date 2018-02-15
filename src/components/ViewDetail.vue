@@ -157,6 +157,7 @@ export default {
         console.log('watch', val)
         let obj = val;
         this.customerData = Object.assign({},obj);
+         document.getElementsByClassName('dialog dialog--active')[0].scrollTop = 0
       },
       deep: true
     }

@@ -1,19 +1,22 @@
 <template>
 <div id="app">
 
-<dashboard-nav></dashboard-nav>
   <v-card>
-      <v-card-title>
-        <span class="title"></span>
-        <v-spacer></v-spacer>
-        <v-text-field
+
+
+        <!-- <v-text-field
           append-icon="search"
           label="Search"
           single-line
           hide-details
           v-model="search"
-        ></v-text-field>
-      </v-card-title>
+        ></v-text-field> -->
+        <v-flex xs3 offset-xs10>
+           <v-btn small  color="primary" @click="showAddDialog()" title="Add Customer Data"
+           style="margin-right:-20%">
+              Add
+            </v-btn>
+       </v-flex>
     <v-data-table
         v-model="selected"
         v-bind:headers="headers"
@@ -36,10 +39,10 @@
              @click="!header.disableSort && changeSort(header.value)"
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            <span class="heading blue--text text--darken-4">{{ header.text }}</span>
+            <span class="title blue--text text--darken-4" style="font-size:18px!important">{{ header.text }}</span>
           </th>
           <th>
-            <span class="heading blue--text text--darken-4">   Actions
+            <span class="title blue--text text--darken-4" style="font-size:18px!important">   Actions
           </span>
           </th>
         </tr>
@@ -104,6 +107,18 @@
       </v-dialog>
   </v-layout>
 
+      </v-card>
+
+ <v-layout row justify-center>
+      <v-dialog v-model="addDialog"
+       fullscreen transition="dialog-bottom-transition"
+      >
+       <Add :item="item"
+       @close-add-dialog="closeAddDialog"
+       @dismiss-add-dialog="dismissAddDialog"></Add>
+      </v-dialog>
+  </v-layout>
+
 
   </div>
 
@@ -113,12 +128,8 @@
 
 <script>
 import config from '../config'
-import DashboardNav from './DashboardNav.vue'
 
 export default {
- components: {
-    "dashboard-nav": DashboardNav
-  },
   data () {
     return {
       pagination: {
@@ -131,6 +142,7 @@ export default {
       editDialog: false,
       viewDialog : false,
       deleteDialog: false,
+      addDialog: false,
       selected: [],
       loading: false,
       item: {},
@@ -153,7 +165,25 @@ export default {
   },
 
   mounted () {
-     this.loadData();
+   this.search = this.$store.getters.getsearch;
+   $("#d").click()
+   this.loadData();
+  },
+   computed: {
+     searchVal(){
+       this.search = this.$store.getters.getsearch;
+       return this.$store.getters.getsearch;
+     }
+   },
+   watch: {
+    'searchVal':{
+      handler: function (val, oldVal) {
+        console.log('watch', val)
+        this.search = val;
+       // this.loadData({},0)
+      },
+      deep: true
+    }
   },
 
   filters: {
@@ -252,6 +282,17 @@ export default {
             console.error(error);
             this.$router.push("errorpage");
       });
+    },
+    showAddDialog(){
+      this.addDialog = true;
+      this.item = {};
+    },
+    closeAddDialog() {
+      this.addDialog = false;
+      this.loadData();
+    },
+    dismissAddDialog() {
+      this.addDialog = false;
     }
   }
 }
