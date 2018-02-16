@@ -11,12 +11,22 @@
           hide-details
           v-model="search"
         ></v-text-field> -->
-        <v-flex xs3 offset-xs10>
-           <v-btn small  color="primary" @click="showAddDialog()" title="Add Customer Data"
-           style="margin-right:-20%">
-              Add
+        <v-layout row>
+          <v-flex offset-xs10>
+
+            <v-btn icon  color="primary" @click="showAddDialog()" title="Add Customer Information"
+                  style="box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important">
+                <v-icon>add</v-icon>
             </v-btn>
-       </v-flex>
+
+            <v-btn icon  color="success" @click="loadData()" title="Refresh Content"
+               style="box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important"
+            >
+               <v-icon>refresh</v-icon>
+              </v-btn>
+
+        </v-flex>
+        </v-layout>
     <v-data-table
         v-model="selected"
         v-bind:headers="headers"
@@ -28,7 +38,7 @@
         class="elevation-1"
         :loading="loading"
       >
-
+ <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
       <template slot="headers" slot-scope="props">
         <tr>
           <th v-for="header in props.headers" :key="header.text"
@@ -39,10 +49,10 @@
              @click="!header.disableSort && changeSort(header.value)"
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            <span class="title blue--text text--darken-4" style="font-size:18px!important">{{ header.text }}</span>
+            <span class="title blue--text text--darken-4" style="font-size:16px!important">{{ header.text }}</span>
           </th>
           <th>
-            <span class="title blue--text text--darken-4" style="font-size:18px!important">   Actions
+            <span class="title blue--text text--darken-4" style="font-size:16px!important">   Actions
           </span>
           </th>
         </tr>
@@ -71,11 +81,25 @@
           </td>
         </tr>
       </template>
-        <template slot="no-data">
-        <v-alert :value="true" :color="loadingColor" :icon="loadingIcon">
-          {{loadingMsg}}
-        </v-alert>
+
+
+      <template slot="no-data">
+        <!-- <v-alert :value="true" :color="loadingColor" :icon="loadingIcon"> -->
+         <span :class="loadingColor"> <v-icon :class="loadingColor">{{loadingIcon}}</v-icon>
+         &nbsp;&nbsp; {{loadingMsg}} </span>
+        <!-- </v-alert> -->
       </template>
+
+
+     <template slot="no-results">
+        <!-- <v-alert :value="true" color="red" icon="warning"> -->
+         <span class="red--text text--darken-4">
+           <v-icon class="red--text text--darken-4">warning</v-icon>
+          &nbsp;&nbsp; No matching Records Found</span>
+        <!-- </v-alert> -->
+      </template>
+
+
     </v-data-table>
     </v-card>
 
@@ -136,7 +160,7 @@ export default {
         sortBy: 'customerName'
       },
       loadingMsg: 'Loading Data',
-      loadingColor: 'success',
+      loadingColor: 'green--text text--darken-4',
       loadingIcon: 'info',
       search: '',
       editDialog: false,
@@ -180,7 +204,10 @@ export default {
       handler: function (val, oldVal) {
         console.log('watch', val)
         this.search = val;
-       // this.loadData({},0)
+        if(this.loadingMsg == 'Some Error Occurred . Please try again!') {
+          this.loadingMsg = 'Loading Data'
+          this.loadData();
+        }
       },
       deep: true
     }
@@ -208,16 +235,20 @@ export default {
       }
     },
     loadData () {
-      this.loadingColor ="success";
+      this.loadingColor ="green--text text--darken-4";
       this.loadingIcon = "info";
       this.getCustomerData()
         .then(data => {
           setTimeout(() =>{
               this.loading = false
               this.items = data
-              if(!this.items || this.items.length == 0) {
+              if(!this.items){
+                 this.loadingMsg = "Some Error Occurred . Please try again!";
+                  this.loadingColor = "red--text text--darken-4";
+                  this.loadingIcon = "warning";
+              } else if(this.items.length == 0) {
                 this.loadingMsg = "No data found";
-                this.loadingColor = "red";
+                this.loadingColor = "red--text text--darken-4";
                 this.loadingIcon = "warning";
               }
           },2000);
@@ -232,10 +263,10 @@ export default {
             this.loading = false;
             this.items = [];
             this.loadingMsg = "Some Error Occurred . Please try again!";
-            this.loadingColor = "red";
+            this.loadingColor = "red--text text--darken-4";
             this.loadingIcon = "warning";
             console.error(error);
-            this.$router.push("errorpage");
+            //this.$router.push("/errorpage");
 
         });
     },
@@ -277,10 +308,10 @@ export default {
             this.deleteDialog = false;
             this.items = [];
             this.loadingMsg = "Some Error Occurred . Please try again!";
-            this.loadingColor = "red";
+            this.loadingColor = "red--text text--darken-4";
             this.loadingIcon = "warning";
             console.error(error);
-            this.$router.push("errorpage");
+            //this.$router.push("/errorpage");
       });
     },
     showAddDialog(){

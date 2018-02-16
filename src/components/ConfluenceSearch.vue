@@ -12,7 +12,7 @@
         hide-actions
         fix-headers
       >
-
+<v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
       <template slot="headers" slot-scope="props">
         <tr>
           <th v-for="header in props.headers.slice(0,1)" :key="header.text"
@@ -25,7 +25,7 @@
              v-if="header.text=='Title'"
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            <span class="title blue--text text--darken-4" style="font-size:18px!important">{{ header.text }}</span>
+            <span class="title blue--text text--darken-4" style="font-size:17px!important">{{ header.text }}</span>
           </th>
           <th v-for="header in props.headers.slice(1)" :key="header.text"
              :class="[ !header.disableSort ? 'column sortable' :'' ,
@@ -36,7 +36,7 @@
 
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            <span class="title blue--text text--darken-4" style="font-size:18px!important">{{ header.text }}</span>
+            <span class="title blue--text text--darken-4" style="font-size:17px!important">{{ header.text }}</span>
           </th>
 
         </tr>
@@ -74,16 +74,18 @@
       </template>
 
       <template slot="no-data">
+        <!-- <v-alert :value="true" :color="loadingColor" :icon="loadingIcon"> -->
 
-        <v-alert :value="true" :color="loadingColor" :icon="loadingIcon">
-          {{loadingMsg}}
-        </v-alert>
+         <span :class="loadingColor"> <v-icon :class="loadingColor">{{loadingIcon}}</v-icon>
+         &nbsp;&nbsp; {{loadingMsg}} </span>
+        <!-- </v-alert> -->
       </template>
 
     <template slot="no-results">
-        <v-alert :value="true" :color="loadingColor" :icon="loadingIcon">
-          Loading More data
-        </v-alert>
+        <!-- <v-alert :value="true" :color="loadingColor" :icon="loadingIcon"> -->
+           <span :class="loadingColor"> <v-icon :class="loadingColor">{{loadingIcon}}</v-icon>
+         &nbsp;&nbsp; Loading More data </span>
+        <!-- </v-alert> -->
       </template>
 
 
@@ -120,7 +122,7 @@ import moment from "moment";
 
 
 export default {
-name : 'confluence',
+name : 'confluencesearch',
   data () {
     return {
       pagination: {
@@ -129,7 +131,7 @@ name : 'confluence',
       },
       totalItems : 0,
       loadingMsg: 'Please input the search string',
-      loadingColor: 'success',
+      loadingColor: 'green-text text--darken-4',
       loadingIcon: 'warning',
       search: '',
       selected: [],
@@ -215,7 +217,7 @@ name : 'confluence',
           offset = 0;
         }
       if(!this.search || this.search == ''){
-        this.loadingColor ="success";
+        this.loadingColor ="green--text text--darken-4";
         this.loadingIcon = "warning";
         this.loadingMsg = "Please input the search string";
         return;
@@ -229,7 +231,7 @@ name : 'confluence',
       if(!offset){
           offset = 0;
         }
-      this.loadingColor ="success";
+      this.loadingColor ="green--text text--darken-4";
       this.loadingIcon = "info";
       this.loadingMsg = "Loading Data";
       const promise = this.getCustomerData(this.search, offset);
@@ -256,7 +258,7 @@ name : 'confluence',
             this.loading = false
             if(!this.items || this.items.length == 0) {
               this.loadingMsg = "No data found";
-              this.loadingColor = "red";
+              this.loadingColor = "red--text text--darken-4";
               this.loadingIcon = "warning";
             }
           }
@@ -265,7 +267,7 @@ name : 'confluence',
           this.items = [];
           this.totalItems = 0;
           this.loadingMsg = "Some Error Occurred . Please try again!";
-          this.loadingColor = "red";
+          this.loadingColor = "red--text text--darken-4";
           this.loadingIcon = "warning";
           console.error(error);
           //this.$router.push("errorpage");

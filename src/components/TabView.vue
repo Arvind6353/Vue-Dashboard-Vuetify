@@ -3,7 +3,7 @@
 <div id="tabView">
          <v-tabs
    grow dark v-model="active" >
-      <v-tabs-bar style="border-top: 2px #003087 solid !important;">
+      <v-tabs-bar style="border-top: 0px #003087 solid !important;">
 
         <v-tabs-slider color="yellow" ></v-tabs-slider>
 
@@ -73,7 +73,7 @@ data (){
 .yellow {
     background-color: #003087 !important;
     border-color: #003087 !important;
-    border-width: 3px  solid !important;
-    height:4px;
+    border-width: 2px  solid !important;
+    height:3px;
 }
 </style>

@@ -181,7 +181,8 @@ export default {
           obj.references = obj.references.join(",");
         }
         this.customerData = Object.assign({}, obj);
-        document.getElementsByClassName('dialog dialog--active')[0].scrollTop = 0
+        if(document.getElementsByClassName('dialog dialog--active') && document.getElementsByClassName('dialog dialog--active')[0])
+          document.getElementsByClassName('dialog dialog--active')[0].scrollTop = 0
       },
       deep: true
     }
