@@ -11,7 +11,7 @@
     <div class="title" style="padding-top:14px;">
           Global Professional Services
      </div>
-  <span class="" style="line-height: 2em !important"> Search Engine </span>
+  <span class="title" style="line-height: 2em !important"> Ask Yoda </span>
  </span>
   </v-flex>
  </v-toolbar>

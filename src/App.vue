@@ -69,7 +69,7 @@ export default {
     color: #1976D2  !important;
   }
   .tabs__li {
-        border-right: 1px solid !important;
+    border-right: 1px solid !important;
 
   }
 </style>

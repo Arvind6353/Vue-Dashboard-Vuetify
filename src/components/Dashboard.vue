@@ -181,7 +181,7 @@ export default {
         { text: 'Region', value: 'customerRegion' },
         { text: 'Country', value: 'country' },
         { text: 'Launch Date', value: 'launchDate' },
-        { text: 'Products', value: 'products' }
+        { text: 'Product/Solution', value: 'products' }
 
       ],
       items: []

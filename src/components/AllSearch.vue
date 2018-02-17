@@ -1,12 +1,12 @@
 <template>
 <div>
   <v-card style="
-     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);">
+    box-shadow: rgba(0, 0, 0, 0.3) -20px -5px 38px, rgba(0, 0, 0, 0.22) 10px 15px 12px;">
       <v-card-title style="padding-top: 0px!important;">
         <span class="title"></span>
         <v-text-field
           append-icon="search"
-          label="Start Typing ..."
+          label="Search for products, solutions, integrations, troubleshooting, postman scripts, FAQ and many more ..."
           single-line
           hide-details
           @input.native="updateSearch"
@@ -17,7 +17,9 @@
 
 
 <br/><br/>
-<div>
+<div style="-webkit-box-shadow: -24px -13px 48px 8px rgba(179,177,177,1);
+-moz-box-shadow: -24px -13px 48px 8px rgba(179,177,177,1);
+box-shadow: -24px -13px 48px 8px rgba(179,177,177,1);">
   <tabview :searchParam="search"></tabview>
 </div>
 
