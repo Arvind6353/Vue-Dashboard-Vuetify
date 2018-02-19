@@ -68,6 +68,7 @@ export default {
   li.tabs__li >a.tabs__item--active {
     background-color: #9ae4fd !important;
     color: #05529f !important;
+    border-bottom: 2px solid #003087 !important;
   }
   .tabs__li {
     border-right: 1px solid !important;

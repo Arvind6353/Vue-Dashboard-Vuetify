@@ -23,6 +23,7 @@ import MTSFaq from '@/components/MTSFaq'
 
 import DeveloperPortal from '@/components/DeveloperPortal'
 
+import AddPostmanScript from '@/components/AddPostmanScript'
 
 Vue.component("Add",Add);
 Vue.component("Dashboard", Dashboard);
@@ -39,6 +40,7 @@ Vue.component("tabview",TabView);
 Vue.component("allsearch",AllSearch);
 Vue.component("Tools", Tools);
 Vue.component("Postman", Postman);
+Vue.component("AddPostmanScript",AddPostmanScript);
 
 Vue.use(Router)
 

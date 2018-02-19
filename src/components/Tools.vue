@@ -2,8 +2,8 @@
 <div id="app">
 
   <v-card style="box-shadow: rgba(0, 0, 0, 0.3) -20px -5px 38px, rgba(0, 0, 0, 0.22) 10px 15px 12px;">
-    <v-layout row>
-    <v-flex xs6 offset-xs6>
+     <v-layout row class="pt-2">
+    <v-flex xs10 offset-xs1 >
       <v-text-field
             append-icon="search"
             label="Search for Tools"
@@ -13,6 +13,8 @@
           ></v-text-field>
       </v-flex>
     </v-layout>
+    <br/>
+     <br/>
        <v-data-table
         v-model="selected"
         v-bind:headers="headers"

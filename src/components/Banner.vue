@@ -71,7 +71,7 @@ data(){
     items: [
         { title: 'Home', icon: 'dashboard', link : '/contentsearch2/dashboardsearch' },
         { title: 'Tools', icon: 'settings' , link: '/tools'}
-      //  { title: 'Postman', icon: 'code' ,link:'/postman'},
+      //,  { title: 'Postman', icon: 'code' ,link:'/postman'},
       ]
   }
   }

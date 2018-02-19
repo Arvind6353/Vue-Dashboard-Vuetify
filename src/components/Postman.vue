@@ -99,7 +99,20 @@
 
     </v-data-table>
     </v-card>
+
+
+    <v-layout row justify-center>
+        <v-dialog v-model="addDialog"
+        fullscreen transition="dialog-bottom-transition"
+        >
+        <Add
+          @close-add-postman-dialog="closeAddDialog"
+          @dismiss-add-postman-dialog="dismissAddDialog"></Add>
+        </v-dialog>
+    </v-layout>
+
  </div>
+
 
 </template>
 
@@ -120,6 +133,7 @@
         search: '',
         selected: [],
         loading: false,
+        addPostmanScriptDialog: false,
         item: {},
         headers: [
           {
@@ -150,10 +164,6 @@
     },
 
     methods: {
-      toggleAll () {
-        if (this.selected.length) this.selected = []
-        else this.selected = this.items.slice()
-      },
       changeSort (column) {
         if (this.pagination.sortBy === column) {
           this.pagination.descending = !this.pagination.descending
@@ -196,6 +206,16 @@
               console.error(error);
 
           });
+      },
+      showAddDialog(){
+        this.addPostmanScriptDialog = true;
+      },
+      closeAddDialog() {
+        this.addPostmanScriptDialog = false;
+        this.loadData();
+      },
+      dismissAddDialog() {
+        this.addPostmanScriptDialog = false;
       }
     }
   }

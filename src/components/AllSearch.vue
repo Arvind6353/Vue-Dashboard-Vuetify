@@ -1,10 +1,8 @@
 <template>
 <div>
   <!--
-    style="
-    box-shadow: rgba(0, 0, 0, 0.3) -20px -5px 38px, rgba(0, 0, 0, 0.22) 10px 15px 12px;">
-   -->
-  <v-card
+     -->
+  <v-card style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
        <v-card-title style="padding-top: 0px!important;">
         <span class="title"></span>
         <v-text-field
@@ -25,7 +23,11 @@
 -moz-box-shadow: -24px -13px 48px 8px rgba(179,177,177,1);
 box-shadow: -24px -13px 48px 8px rgba(179,177,177,1);">
   -->
-<div>
+  <!--
+    style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+    -->
+<div style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+   >
   <tabview :searchParam="search"></tabview>
 </div>
 
