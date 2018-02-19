@@ -50,7 +50,7 @@ export default new Router({
     },
     {
       path : '/contentsearch2',
-      name : 'Allsearch',
+     // name : 'Allsearch',
       component: AllSearch,
       children : [
 

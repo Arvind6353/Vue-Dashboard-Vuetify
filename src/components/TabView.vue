@@ -74,6 +74,6 @@ data (){
     background-color: #003087 !important;
     border-color: #003087 !important;
     border-width: 2px  solid !important;
-    height:3px;
+    height:2px;
 }
 </style>
