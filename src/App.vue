@@ -66,7 +66,8 @@ export default {
 }
 /* override style for active tab */
   li.tabs__li >a.tabs__item--active {
-    color: #1976D2  !important;
+    background-color: #9ae4fd !important;
+    color: #05529f !important;
   }
   .tabs__li {
     border-right: 1px solid !important;
