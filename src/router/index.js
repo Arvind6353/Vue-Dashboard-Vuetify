@@ -79,6 +79,10 @@ export default new Router({
           component : ProductCentral
         },
         {
+          path : 'postmanapitester',
+          component : ProductCentral
+        },
+        {
           path : '',
           redirect: '/contentsearch2/dashboardSearch'
         }

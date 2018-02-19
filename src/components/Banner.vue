@@ -70,8 +70,8 @@ data(){
     right: null,
     items: [
         { title: 'Home', icon: 'dashboard', link : '/contentsearch2/dashboardsearch' },
-        { title: 'Tools', icon: 'settings' , link: '/tools'},
-        { title: 'Postman', icon: 'code' ,link:'/postman'},
+        { title: 'Tools', icon: 'settings' , link: '/tools'}
+      //  { title: 'Postman', icon: 'code' ,link:'/postman'},
       ]
   }
   }

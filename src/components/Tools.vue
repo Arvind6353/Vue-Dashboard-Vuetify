@@ -6,7 +6,7 @@
     <v-flex xs6 offset-xs6>
       <v-text-field
             append-icon="search"
-            label="Search"
+            label="Search for Tools"
             single-line
             hide-details
             v-model="search"
