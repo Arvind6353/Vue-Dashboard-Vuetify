@@ -179,23 +179,26 @@ name : 'productcentral',
 
       return this.pagination.rowsPerPage ? Math.ceil(this.totalItems / this.pagination.rowsPerPage) : 0
     },
-    searchVal (){
+   searchVal (){
       this.search = this.$store.getters.getsearch;
-      this.loadData({},0)
+      //this.loadData({},0)
       return this.$store.getters.getsearch;
     }
   },
-    watch: {
+  watch: {
     'searchVal':{
       handler: function (val, oldVal) {
         console.log('watch', val)
         this.search = val;
+        if(!this.search) {
+          this.lastPromise = null;
+          this.loading = false;
+        }
         this.loadData({},0)
-      },
+     },
       deep: true
     }
   },
-
   methods: {
     changeSort (column) {
       if (this.pagination.sortBy === column) {

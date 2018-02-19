@@ -33,10 +33,10 @@
           &nbsp;&nbsp;Dev Portal
          </v-tabs-item>
 
-      <v-tabs-item  to="/contentsearch2/postmanapitester">
+      <!-- <v-tabs-item  to="/contentsearch2/postmanapitester">
         <v-icon>build</v-icon>
           &nbsp;&nbsp;Postman/API Tester
-      </v-tabs-item>
+      </v-tabs-item> -->
 
       <v-tabs-item  to="/contentsearch2/mtsfaq">
         <v-icon>help</v-icon>

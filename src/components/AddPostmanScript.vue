@@ -28,78 +28,6 @@
         :counter="30"
         required
       ></v-text-field>
-
-      <v-select
-        label="Region"
-        v-model="customerData.customerRegion"
-        :items="regions"
-      ></v-select>
-<!--      :rules="[v => !!v || 'Region is required']"
- -->
-       <v-select
-        label="Country"
-        :items="countries"
-        v-model="customerData.country"
-         multiple
-        chips
-      ></v-select>
-<!--    :rules="[v => v.length>0 || 'Country is required']"
-    -->
-
-
-      <v-text-field
-        label="Problem Statement"
-        :auto-grow="true"
-        v-model="customerData.problemStatement"
-        multi-line
-        rows="2"
-        :counter="600"
-      ></v-text-field>
-<!--  :rules="[v => !!v || 'Problem Statement is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters'
-        ]"
-      -->
-
-      <v-text-field
-        label="Solution Provided"
-        :auto-grow="true"
-        v-model="customerData.solutionProvided"
-        multi-line
-        rows="2"
-        :counter="600"
-        >
-       </v-text-field>
-<!--:rules="[v => !!v || 'Solution Provided is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
-        -->
-
-      <v-dialog
-          persistent
-          v-model="modal"
-          lazy
-          full-width
-          width="290px"
-        >
-          <v-text-field
-            slot="activator"
-            label="Launch Date"
-            v-model="customerData.launchDate"
-            prepend-icon="event"
-            readonly
-          ></v-text-field>
-          <v-date-picker v-model="customerData.launchDate" scrollable actions>
-            <template slot-scope="{ save, cancel }">
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn flat color="primary" @click="cancel">Cancel</v-btn>
-                <v-btn flat color="primary" @click="save">OK</v-btn>
-              </v-card-actions>
-            </template>
-          </v-date-picker>
-        </v-dialog>
-<!--  :rules="[v => !!v || 'Launch Date is required']"
-          -->
-
       <v-select
         label="Products"
         :items="productsArr"
@@ -108,8 +36,6 @@
         chips
         hint="What are the Products Used?"
       ></v-select>
-<!--       :rules="[v => v.length>0 || 'Products is required']"
- -->
 
       <v-text-field
         v-model="customerData.references"
@@ -121,36 +47,6 @@
         :counter="1000"
       ></v-text-field>
 
-      <v-text-field
-        v-model="customerData.pointOfContacts"
-        :auto-grow="true"
-        label="Point Of Contacts(comma separated)"
-        multi-line
-        :counter="600"
-        rows="2"
-      ></v-text-field>
-<!--    :rules="[v => !!v || 'Point of Contacts is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
-    -->
-       <v-text-field
-        label="Notes"
-        v-model="customerData.notes"
-        :counter="600"
-      ></v-text-field>
-<!-- :rules="[v => !!v || 'Notes is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
-       -->
-       <v-text-field
-        label="Lessons Learned"
-        :auto-grow="true"
-        multi-line
-        v-model="customerData.lessonLearned"
-        :counter="600"
-         rows="2"
-      ></v-text-field>
-<!-- :rules="[v => !!v || 'Lessons Learned is required',
-          v => (v && v.length <= 600) || 'Must be less than 600 characters']"
-        -->
       <v-btn
         @click="submit"
         :disabled="!valid"

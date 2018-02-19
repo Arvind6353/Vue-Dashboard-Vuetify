@@ -10,12 +10,13 @@
           label="Search for products, solutions, integrations, troubleshooting, postman scripts, FAQ and many more ..."
           single-line
           hide-details
-          @input.native="updateSearch"
+          :clearable="true"
           v-model="search"
         ></v-text-field>
       </v-card-title>
   </v-card>
-
+<!--@input.native="updateSearch"
+          -->
 
 <br/><br/>
 <!--
@@ -26,8 +27,8 @@ box-shadow: -24px -13px 48px 8px rgba(179,177,177,1);">
   <!--
     style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
     -->
-<div style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
-   >
+<div    style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+ >
   <tabview :searchParam="search"></tabview>
 </div>
 
@@ -42,10 +43,19 @@ data(){
     search : null
   }
 },
-methods:{
-  updateSearch (){
-    this.$store.commit('setsearch', this.search)
+watch: {
+  'search':{
+    handler: function (val, oldVal) {
+      console.log('watch', val)
+      this.$store.commit('setsearch', this.search)
+ },
+    deep: true
   }
+},
+methods:{
+  //updateSearch (){
+    //this.$store.commit('setsearch', this.search)
+  //}
 }
 }
 </script>

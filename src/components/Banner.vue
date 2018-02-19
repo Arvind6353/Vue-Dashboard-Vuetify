@@ -69,9 +69,9 @@ data(){
       mini: false,
     right: null,
     items: [
-        { title: 'Home', icon: 'dashboard', link : '/contentsearch2/dashboardsearch' },
+        { title: 'Home', icon: 'dashboard', link : '/contentsearch2/' },
         { title: 'Tools', icon: 'settings' , link: '/tools'}
-      //,  { title: 'Postman', icon: 'code' ,link:'/postman'},
+     ,  { title: 'Postman', icon: 'code' ,link:'/postman'},
       ]
   }
   }

@@ -102,12 +102,12 @@
 
 
     <v-layout row justify-center>
-        <v-dialog v-model="addDialog"
+        <v-dialog v-model="addPostmanScriptDialog"
         fullscreen transition="dialog-bottom-transition"
         >
-        <Add
+        <AddPostmanScript
           @close-add-postman-dialog="closeAddDialog"
-          @dismiss-add-postman-dialog="dismissAddDialog"></Add>
+          @dismiss-add-postman-dialog="dismissAddDialog"></AddPostmanScript>
         </v-dialog>
     </v-layout>
 
