@@ -17,7 +17,7 @@
     <v-layout row>
       <v-flex offset-xs10>
 
-        <v-btn icon  color="primary" @click="showAddDialog()" title="Add Customer Information"
+        <v-btn icon  color="primary" @click="showAddDialog()" title="Add Postman Data"
               style="box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22) !important">
             <v-icon>add</v-icon>
         </v-btn>
@@ -64,19 +64,13 @@
       <template slot="items" slot-scope="props">
         <tr :active="props.selected" >
 
-          <td>{{ props.item.customerName }}</td>
-          <td>{{ props.item.customerRegion }}</td>
-          <td>{{ props.item.country | multicountry }}</td>
-          <td>{{ props.item.launchDate }}</td>
-          <td>{{ props.item.products | splitter }}</td>
+          <td>{{ props.item.productName }}</td>
+          <td v-html="formatUrl(props.item.url)"></td>
           <td>
-            <v-btn icon color="success" @click="viewCustomerData(props.item)">
-              <v-icon>list</v-icon>
-            </v-btn>
-            <v-btn icon color="info" @click="editCustomerData(props.item)">
+            <v-btn icon color="info" @click="editPostmanData(props.item)">
               <v-icon>edit</v-icon>
             </v-btn>
-            <v-btn icon color="error" @click="deleteCustomerData(props.item)">
+            <v-btn icon color="error" @click="deletePostmanData(props.item)">
               <v-icon>delete</v-icon>
             </v-btn>
           </td>
@@ -105,11 +99,31 @@
         <v-dialog v-model="addPostmanScriptDialog"
         fullscreen transition="dialog-bottom-transition"
         >
-        <AddPostmanScript
+        <AddPostmanScript :item="item"
           @close-add-postman-dialog="closeAddDialog"
           @dismiss-add-postman-dialog="dismissAddDialog"></AddPostmanScript>
         </v-dialog>
     </v-layout>
+
+    <v-layout row justify-center>
+        <v-dialog v-model="editPostmanScriptDialog"
+        fullscreen transition="dialog-bottom-transition"
+        >
+        <AddPostmanScript :item="item" :is-edit="true"
+          @close-edit-postman-dialog="closeEditDialog"
+          @dismiss-edit-postman-dialog="dismissEditDialog"></AddPostmanScript>
+        </v-dialog>
+    </v-layout>
+
+    <v-layout row justify-center>
+        <v-dialog v-model="deletePostmanScriptDialog" max-width="500px">
+        <DeletePostmanScript :delData="delData"
+        @close-delete-postman-dialog="closeDeleteDialog"
+        @do-postman-delete="deleteData"
+        ></DeletePostmanScript>
+        </v-dialog>
+    </v-layout>
+
 
  </div>
 
@@ -132,19 +146,19 @@
         loadingIcon: 'info',
         search: '',
         selected: [],
+        delData: null,
         loading: false,
         addPostmanScriptDialog: false,
+        editPostmanScriptDialog: false,
+        deletePostmanScriptDialog: false,
         item: {},
         headers: [
           {
-            text: 'Customer Name',
+            text: 'Product Name',
             align: 'left',
-            value: 'customerName'
+            value: 'productName'
           },
-          { text: 'Region', value: 'customerRegion' },
-          { text: 'Country', value: 'country' },
-          { text: 'Launch Date', value: 'launchDate' },
-          { text: 'Products', value: 'products' }
+          { text: 'Postman Link', value: 'url' }
 
         ],
         items: []
@@ -154,16 +168,11 @@
     mounted () {
       this.loadData();
     },
-
-    filters: {
-      multicountry: function (value) {
-        if(value && value.length > 1) return "Multi Country";
-        if(!value) return '';
-        return value.join(',');
-      }
-    },
-
     methods: {
+      formatUrl (value) {
+          if(!value) return '';
+          return "<a href='"+value+"' target='_blank'>"+value+"</a>"
+      },
       changeSort (column) {
         if (this.pagination.sortBy === column) {
           this.pagination.descending = !this.pagination.descending
@@ -175,7 +184,7 @@
       loadData () {
         this.loadingColor ="green--text text--darken-4";
         this.loadingIcon = "info";
-        this.getCustomerData()
+        this.getPostmanData()
           .then(data => {
             setTimeout(() =>{
                 this.loading = false
@@ -192,9 +201,9 @@
             },2000);
         })
       },
-      getCustomerData () {
+      getPostmanData () {
           this.loading = true
-          return this.$http.get(config.serverUrl+"/customer").then(result => {
+          return this.$http.get(config.serverUrl+"/postman").then(result => {
                 return result.data;
 
           }, error => {
@@ -207,15 +216,53 @@
 
           });
       },
+      deleteData(id) {
+        this.loading = true
+        this.$http.delete(config.serverUrl+"/postman/"+id).then(result => {
+            console.log("deleted successfully")
+            this.deletePostmanScriptDialog = false;
+            this.loading = false;
+            this.loadData();
+        }, error => {
+            this.loading = false;
+            this.deletePostmanScriptDialog = false;
+            this.items = [];
+            this.loadingMsg = "Some Error Occurred . Please try again!";
+            this.loadingColor = "red--text text--darken-4";
+            this.loadingIcon = "warning";
+            console.error(error);
+      });
+    },
       showAddDialog(){
         this.addPostmanScriptDialog = true;
+        this.item = {};
       },
       closeAddDialog() {
         this.addPostmanScriptDialog = false;
+        this.item = {};
         this.loadData();
       },
       dismissAddDialog() {
+        this.item = {};
         this.addPostmanScriptDialog = false;
+      },
+      editPostmanData(data) {
+        this.editPostmanScriptDialog = true;
+        this.item = Object.assign({},data);
+      },
+      closeEditDialog() {
+        this.editPostmanScriptDialog = false;
+        this.loadData();
+      },
+      dismissEditDialog() {
+        this.editPostmanScriptDialog = false;
+      },
+      deletePostmanData(data) {
+        this.deletePostmanScriptDialog = true;
+        this.delData = Object.assign({},data);
+      },
+      closeDeleteDialog() {
+        this.deletePostmanScriptDialog = false;
       }
     }
   }
