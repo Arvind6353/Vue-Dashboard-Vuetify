@@ -24,19 +24,16 @@
         label="Product Name"
         v-model.lazy="postmanData.productName"
         :rules="nameRules"
-        :counter="90"
+        :counter="100"
         required
       ></v-text-field>
 
       <v-text-field
         v-model="postmanData.url"
-        label="Postman Script url"
-        :auto-grow="true"
-        multi-line
-        rows="2"
+        label="Postman Script URL"
         required
         :rules="referencesRules"
-        :counter="1000"
+        :counter="300"
       ></v-text-field>
 
       <v-btn
@@ -84,7 +81,7 @@ export default {
     },
     nameRules: [
       v => !!v || "Name is required",
-      v => (v && v.length <= 90) || "Name must be less than 90 characters"
+      v => (v && v.length <= 100) || "Name must be less than 100 characters"
     ],
     referencesRules :[
           v =>{
