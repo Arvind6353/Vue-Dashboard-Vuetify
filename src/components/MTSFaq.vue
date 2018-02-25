@@ -283,7 +283,7 @@ name : 'mtsfaq',
           param = "search"
         }
         this.loading = true
-        return this.$http.get(encodeURI(config.serverUrl+"/customer/box/"+param+"?offset="+offset))
+        return this.$http.get(encodeURI(config.serverUrl+"/box/"+param+"?offset="+offset))
     },
     getColor( value){
       if (!value) return ''

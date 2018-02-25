@@ -63,11 +63,14 @@
             <v-btn icon color="teal darken-1" class="white--text" @click="copy(props.item.url)">
               <v-icon>fa fa-copy fa-x</v-icon>
             </v-btn>
-
           </td>
 
           <td v-else>
-            <span class="blue--text text--darken-4">N/A</span>
+            <!-- <span class="blue--text text--darken-4">N/A</span> -->
+
+             <v-btn flat color="info darken-4" class="white--text" @click="getLink(props.item)">
+                Get Link
+            </v-btn>
           </td>
 
         </tr>
@@ -284,7 +287,7 @@ name : 'boxcontent',
           param = "search"
         }
         this.loading = true
-        return this.$http.get(encodeURI(config.serverUrl+"/customer/box/"+param+"?offset="+offset))
+        return this.$http.get(encodeURI(config.serverUrl+"/box/"+param+"?offset="+offset))
     },
     getColor( value){
       if (!value) return ''
@@ -328,6 +331,15 @@ name : 'boxcontent',
       aux.select();
       document.execCommand("copy");
       document.body.removeChild(aux);
+    },
+    getLink : function (item) {
+      this.$http.get(encodeURI(config.serverUrl+"/box/link/"+item.id))
+      .then( result =>{
+        console.log('res ',result.bodyText);
+        item.url = result.bodyText;
+      }).catch( err => {
+          console.log('error ',err);
+      })
     }
   },
   filters: {

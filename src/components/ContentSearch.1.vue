@@ -115,7 +115,7 @@ export default {
         }
         if (event.target.value.length > 0) {
 
-            this.$http.get(config.serverUrl+"/customer/box/"+event.target.value).then(result => {
+            this.$http.get(config.serverUrl+"/box/"+event.target.value).then(result => {
 
                this.docs = result.data.map((entry,index) => {
                  return { name : entry.name, id: entry.id, url : entry.url, idx:index }
