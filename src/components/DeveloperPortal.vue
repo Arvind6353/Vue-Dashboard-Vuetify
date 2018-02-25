@@ -21,7 +21,7 @@
                        !header.disableSort && header.value === pagination.sortBy ? 'active' : ''
                     ]"
              @click="!header.disableSort && changeSort(header.value)"
-             style="width:33.3%"
+             style="width:100%"
              v-if="header.text=='Title'"
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
@@ -43,11 +43,13 @@
           </template>
 
           <template slot="items" slot-scope="props">
-            <tr :active="props.selected" >
-
-              <td>{{ props.item.text }}</td>
-              <td v-html="props.item.description"></td>
-              <td>{{ props.item.href}}</td>
+            <tr :active="props.selected">
+              <td>
+                <div class="headline pt-3" style="line-height:1em!important">
+                   <a :href="props.item.href" target="_blank" style="text-decoration:none">{{ props.item.text }}</a> <br/><br/>
+                </div>
+                <div class="title pb-4" v-html="props.item.description"> </div>
+              </td>
             </tr>
           </template>
 
@@ -93,11 +95,11 @@ export default {
       headers: [
         {
           text: 'Title',
-          align: 'left',
+
           value: 'text'
-        },
-        { text: 'Description', value: 'description' },
-        { text: 'Link', value: 'href' }
+        }
+        //, { text: 'Description', value: 'description' },
+        // { text: 'Link', value: 'href' }
       ],
       items: []
     }
@@ -105,7 +107,7 @@ export default {
 
   mounted () {
    this.search = this.$store.getters.getsearch;
-   //this.loadData({});
+   this.loadData({});
   },
    computed: {
      searchVal(){
@@ -183,11 +185,16 @@ export default {
     getCustomerData () {
         this.loading = true
         return this.$http.get("http://localhost:9000/developer?q="+this.search).then(result => {
-              $("#responseContent").html(result.bodyText);
+              //$("#responseContent").html(result.bodyText);
 
               var items = [];
 
-              var links = $("#responseContent").find(".dx-search-result");
+              var jqueryObj = $.parseHTML(result.bodyText);
+
+              //var links = $("#responseContent").find(".dx-search-result");
+
+              var links = $(jqueryObj).find(".dx-search-result");
+
 
               links.toArray().forEach(function(element) {
 

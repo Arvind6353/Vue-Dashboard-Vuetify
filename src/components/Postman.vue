@@ -52,10 +52,10 @@
             @click="!header.disableSort && changeSort(header.value)"
           >
             <v-icon v-if="!header.disableSort">arrow_upward</v-icon>
-            <span class="title blue--text text--darken-4" style="font-size:16px!important">{{ header.text }}</span>
+            <span class="title blue--text text--darken-4" style="font-size:20px!important">{{ header.text }}</span>
           </th>
           <th>
-            <span class="title blue--text text--darken-4" style="font-size:16px!important">   Actions
+            <span class="title blue--text text--darken-4" style="font-size:20px!important">   Actions
           </span>
           </th>
         </tr>
@@ -64,8 +64,8 @@
       <template slot="items" slot-scope="props">
         <tr :active="props.selected" >
 
-          <td>{{ props.item.productName }}</td>
-          <td v-html="formatUrl(props.item.url)"></td>
+          <td class="headline">{{ props.item.productName }}</td>
+          <td class="title" v-html="formatUrl(props.item.url)"></td>
           <td>
             <v-btn icon color="info" @click="editPostmanData(props.item)">
               <v-icon>edit</v-icon>
@@ -139,7 +139,7 @@
     data () {
       return {
         pagination: {
-          sortBy: 'customerName'
+          sortBy: 'productName'
         },
         loadingMsg: 'Loading Data',
         loadingColor: 'green--text text--darken-4',
