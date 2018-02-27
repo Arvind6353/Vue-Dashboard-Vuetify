@@ -193,13 +193,13 @@ export default {
     customerData: {
       customerName: "",
       customerRegion: "",
-      country: null,
+      country: [],
       launchDate: null,
       problemStatement: "",
       lessonLearned: "",
       solutionProvided: "",
       notes: "",
-      products: null,
+      products: [],
       references: null,
       pointOfContacts: ""
     },
@@ -268,7 +268,19 @@ export default {
               result => {
                 console.log("data from server ", result.data);
                 this.isError = false;
-                this.customerData = null;
+                this.customerData = {
+                  customerName: "",
+                  customerRegion: "",
+                  country: [],
+                  launchDate: null,
+                  problemStatement: "",
+                  lessonLearned: "",
+                  solutionProvided: "",
+                  notes: "",
+                  products: [],
+                  references: null,
+                  pointOfContacts: ""
+                };
                 if (this.isEdit) {
                   this.$emit("close-edit-dialog");
                 } else {
@@ -315,11 +327,35 @@ export default {
       this.$refs.form.reset();
     },
     dismiss() {
-      this.customerData = null;
+      this.customerData = {
+        customerName: "",
+        customerRegion: "",
+        country: [],
+        launchDate: null,
+        problemStatement: "",
+        lessonLearned: "",
+        solutionProvided: "",
+        notes: "",
+        products: [],
+        references: null,
+        pointOfContacts: ""
+      };
        this.$emit("dismiss-edit-dialog");
     },
     cancel() {
-      this.customerData = null;
+      this.customerData = {
+        customerName: "",
+        customerRegion: "",
+        country: [],
+        launchDate: null,
+        problemStatement: "",
+        lessonLearned: "",
+        solutionProvided: "",
+        notes: "",
+        products: [],
+        references: null,
+        pointOfContacts: ""
+      };
       this.$emit("dismiss-add-dialog");
     }
   }

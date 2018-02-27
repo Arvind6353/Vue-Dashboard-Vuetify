@@ -160,7 +160,19 @@ export default {
       addDialog: false,
       selected: [],
       loading: false,
-      item: {},
+      item: {
+        customerName: "",
+        customerRegion: "",
+        country: [],
+        launchDate: null,
+        problemStatement: "",
+        lessonLearned: "",
+        solutionProvided: "",
+        notes: "",
+        products: [],
+        references: null,
+        pointOfContacts: ""
+      },
       cusData:{},
       delData: {},
       headers: [
@@ -303,7 +315,19 @@ export default {
     },
     showAddDialog(){
       this.addDialog = true;
-      this.item = {};
+      this.item = {
+        customerName: "",
+        customerRegion: "",
+        country: [],
+        launchDate: null,
+        problemStatement: "",
+        lessonLearned: "",
+        solutionProvided: "",
+        notes: "",
+        products: [],
+        references: null,
+        pointOfContacts: ""
+      };
     },
     closeAddDialog() {
       this.addDialog = false;

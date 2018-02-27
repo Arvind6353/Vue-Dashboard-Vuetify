@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-  <div id="responseContent" style="display:none"></div>
     <v-card>
 
       <v-data-table
@@ -82,7 +81,7 @@ export default {
   data () {
     return {
       pagination: {
-        sortBy: 'customerName'
+        sortBy: 'text'
       },
       loadingMsg: 'Please input the search string',
       loadingColor: 'green-text text--darken-4',
@@ -185,16 +184,12 @@ export default {
     getCustomerData () {
         this.loading = true
         return this.$http.get("http://localhost:9000/developer?q="+this.search).then(result => {
-              //$("#responseContent").html(result.bodyText);
 
               var items = [];
 
               var jqueryObj = $.parseHTML(result.bodyText);
 
-              //var links = $("#responseContent").find(".dx-search-result");
-
               var links = $(jqueryObj).find(".dx-search-result");
-
 
               links.toArray().forEach(function(element) {
 
